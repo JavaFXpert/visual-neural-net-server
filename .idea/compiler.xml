@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="deeplearning4j-examples" />
+        <module name="visual-neural-net-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="deeplearning4j-examples" target="1.8" />
+      <module name="visual-neural-net-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
