@@ -1,6 +1,7 @@
 package com.javafxpert.neuralnetviz;
 
 import com.javafxpert.neuralnetviz.scenario.CSVExample;
+import com.javafxpert.neuralnetviz.scenario.XorExample;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -43,7 +44,7 @@ public class CounterHandler extends TextWebSocketHandler {
             session.close();
         }
         else if ("{\"name\":\"Fred\"}".equalsIgnoreCase(message.getPayload())) {
-            CSVExample.go(session);
+            XorExample.go(session);
         }
         else {
             System.out.println("Received:" + message.getPayload());

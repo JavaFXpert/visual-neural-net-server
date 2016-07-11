@@ -116,7 +116,7 @@ public class ModelListener implements IterationListener {
                 if(Character.isDigit(param.charAt(0))) newName = "param_" + param;
                 else newName = param;
 
-                log.warn("updates newName: " + newName + " \n" + entry.getValue().dup());
+                System.out.println("updates newName: " + newName + " \n" + entry.getValue().dup());
                 try {
                     webSocketSession.sendMessage(new TextMessage("modelJson: " + entry.getValue().dup()));
                 }

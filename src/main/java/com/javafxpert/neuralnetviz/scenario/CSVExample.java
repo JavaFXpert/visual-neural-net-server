@@ -4,6 +4,7 @@ import com.javafxpert.neuralnetviz.model.ModelListener;
 import org.canova.api.records.reader.RecordReader;
 import org.canova.api.records.reader.impl.CSVRecordReader;
 import org.canova.api.split.FileSplit;
+import org.canova.api.split.InputStreamInputSplit;
 import org.deeplearning4j.datasets.canova.RecordReaderDataSetIterator;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.Layer;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.net.URL;
+
 /**
  * @author Adam Gibson
  */
@@ -34,11 +37,16 @@ public class CSVExample {
 
     public static void go(WebSocketSession webSocketSession) throws  Exception {
 
+        System.out.println("In CSVExample.go()");
+
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
         int numLinesToSkip = 0;
         String delimiter = ",";
         RecordReader recordReader = new CSVRecordReader(numLinesToSkip,delimiter);
-        recordReader.initialize(new FileSplit(new ClassPathResource("iris.txt").getFile()));
+        //recordReader.initialize(new FileSplit(new ClassPathResource("iris.txt").getFile()));
+        recordReader.initialize(new InputStreamInputSplit(new URL("http://learnjavafx.typepad.com/iris.txt").openStream()));
+
+        System.out.println("After recordReader.initialize()");
 
         //Second: the RecordReaderDataSetIterator handles conversion to DataSet objects, ready for use in neural network
         int labelIndex = 4;     //5 values in each row of the iris.txt CSV: 4 input features followed by an integer label (class) index. Labels are the 5th value (index 4) in each row
@@ -46,8 +54,12 @@ public class CSVExample {
         int batchSize = 150;    //Iris data set: 150 examples total. We are loading all of them into one DataSet (not recommended for large data sets)
         DataSetIterator iterator = new RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
 
+        System.out.println("After DataSetIterator iterator: " + iterator);
+
 
         DataSet next = iterator.next();
+
+        System.out.println("After DataSet next: " + next);
 
         final int numInputs = 4;
         int outputNum = 3;
@@ -55,7 +67,7 @@ public class CSVExample {
         long seed = 6;
 
 
-        log.info("Build model....");
+        System.out.println("Build model....");
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(seed)
             .iterations(iterations)
