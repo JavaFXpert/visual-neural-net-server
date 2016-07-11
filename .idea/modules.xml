@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/deeplearning4j-examples.iml" filepath="$PROJECT_DIR$/deeplearning4j-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/visual-neural-net-server.iml" filepath="$PROJECT_DIR$/visual-neural-net-server.iml" />
     </modules>
   </component>
 </project>
