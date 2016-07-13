@@ -14,4 +14,36 @@ public class NeuralNetNode {
 
   @JsonProperty("label")
   private String bias;
+
+  public NeuralNetNode() {
+  }
+
+  public NeuralNetNode(String id, String bias) {
+    this.id = id;
+    this.bias = bias;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getBias() {
+    return bias;
+  }
+
+  public void setBias(String bias) {
+    this.bias = bias;
+  }
+
+  @Override
+  public String toString() {
+    return "NeuralNetNode{" +
+        "id='" + id + '\'' +
+        ", bias='" + bias + '\'' +
+        '}';
+  }
 }

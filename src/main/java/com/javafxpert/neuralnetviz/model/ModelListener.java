@@ -121,10 +121,10 @@ public class ModelListener implements IterationListener {
                 if(Character.isDigit(firstChar)) {
                     newName = "param_" + param;
 
-                    int layerNum = Character.getNumericValue(firstChar);
+                    int layerNum = Character.getNumericValue(firstChar) + 1;
                     boolean containsWeights = false;
 
-                    // param should take the form of 0_W or 0_b where first digit is layer number
+                    // param should take the form of 0_W or 0_b where first digit is layer number - 1
                     if (param.length() == 3 && param.charAt(1) == '_' && (param.charAt(2) == 'W' || param.charAt(2) == 'b')) {
                         containsWeights = param.charAt(2) == 'W';
 
@@ -196,6 +196,59 @@ public class ModelListener implements IterationListener {
 
     private void populateNeuralNetModel(int layerNum, boolean containsWeights, INDArray entry) {
         System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
+
+        NeuralNetGraph neuralNetGraph = new NeuralNetGraph();
+        int curNodeId = 0; // zero based
+
+        // Populate a layer with nodes and edges
+        if (layerNum == 1 && containsWeights) {
+            // Create nodes for layer 0 (the input layer), as they are not reported and contain no weights or bias or edges
+            NeuralNetLayer inputLayer = new NeuralNetLayer();
+            inputLayer.setLayerNum(0);
+            neuralNetGraph.getNeuralNetLayerList().add(inputLayer);
+
+            // The number of nodes in the input layer is the same as the number of edges in a given node in layer 1, which
+            // is also the same as the number of rows in the weights array
+            int numInputLayerNodes = entry.rows();
+            for (int i = 0; i < numInputLayerNodes; i++) {
+                NeuralNetNode node = new NeuralNetNode();
+                node.setId("" + curNodeId++);
+                inputLayer.getNeuralNetNodeList().add(node);
+            }
+        }
+        if (layerNum >= 1 && containsWeights) {
+            // Create a layer and add it to the NeuralNetGraph
+            NeuralNetLayer curLayer = new NeuralNetLayer();
+            curLayer.setLayerNum(layerNum);
+            neuralNetGraph.getNeuralNetLayerList().add(curLayer);
+            if (layerNum != neuralNetGraph.getNeuralNetLayerList().size() - 1) {
+                System.out.println("Unexpected condition: layerNum: " + layerNum +
+                    " should equal neuralNetGraph.getNeuralNetLayerList().size() - 1: " +
+                    (neuralNetGraph.getNeuralNetLayerList().size() - 1));
+            }
+
+            // Create/add nodes to the layer and graph for each column in the weights array
+            int numCurLayerNodes = entry.columns();
+            for (int i = 0; i < numCurLayerNodes; i++) {
+                NeuralNetNode node = new NeuralNetNode();
+                node.setId("" + curNodeId++);
+                curLayer.getNeuralNetNodeList().add(node);
+                neuralNetGraph.getNeuralNetNodeList().add(node);
+            }
+
+            // Create/add edge to the graph for each weight
+            int numPrevLayerNodes = entry.rows();
+            for (int row = 0; row < numPrevLayerNodes; row++) {
+                for (int col = 0; col < numCurLayerNodes; col++) {
+                    NeuralNetEdge neuralNetEdge = new NeuralNetEdge();
+                    neuralNetEdge.setWeight("" + entry.getDouble(row, col));
+                    neuralNetEdge.setArrowDirection("to");
+                    neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum - 1).getNeuralNetNodeList().get(row));
+                    neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum).getNeuralNetNodeList().get(col));
+                    neuralNetGraph.getNeuralNetEdgeList().add(neuralNetEdge);
+                }
+            }
+        }
 
         /*
         try {

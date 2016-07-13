@@ -20,4 +20,56 @@ public class NeuralNetEdge {
 
   @JsonProperty("label")
   private String weight;
+
+  public NeuralNetEdge() {
+  }
+
+  public NeuralNetEdge(String fromId, String toId, String arrowDirection, String weight) {
+    this.fromId = fromId;
+    this.toId = toId;
+    this.arrowDirection = arrowDirection;
+    this.weight = weight;
+  }
+
+  public String getFromId() {
+    return fromId;
+  }
+
+  public void setFromId(String fromId) {
+    this.fromId = fromId;
+  }
+
+  public String getToId() {
+    return toId;
+  }
+
+  public void setToId(String toId) {
+    this.toId = toId;
+  }
+
+  public String getArrowDirection() {
+    return arrowDirection;
+  }
+
+  public void setArrowDirection(String arrowDirection) {
+    this.arrowDirection = arrowDirection;
+  }
+
+  public String getWeight() {
+    return weight;
+  }
+
+  public void setWeight(String weight) {
+    this.weight = weight;
+  }
+
+  @Override
+  public String toString() {
+    return "NeuralNetEdge{" +
+        "fromId='" + fromId + '\'' +
+        ", toId='" + toId + '\'' +
+        ", arrowDirection='" + arrowDirection + '\'' +
+        ", weight='" + weight + '\'' +
+        '}';
+  }
 }

@@ -23,12 +23,15 @@ public class NeuralNetGraph implements Serializable {
   @JsonProperty("edges")
   private List<NeuralNetEdge> neuralNetEdgeList = new ArrayList<>();
 
+  private List<NeuralNetLayer> neuralNetLayerList = new ArrayList<>();
+
   public NeuralNetGraph() {
   }
 
-  public NeuralNetGraph(List<NeuralNetNode> neuralNetNodeList, List<NeuralNetEdge> neuralNetEdgeList) {
+  public NeuralNetGraph(List<NeuralNetNode> neuralNetNodeList, List<NeuralNetEdge> neuralNetEdgeList, List<NeuralNetLayer> neuralNetLayerList) {
     this.neuralNetNodeList = neuralNetNodeList;
     this.neuralNetEdgeList = neuralNetEdgeList;
+    this.neuralNetLayerList = neuralNetLayerList;
   }
 
   public List<NeuralNetNode> getNeuralNetNodeList() {
@@ -47,11 +50,20 @@ public class NeuralNetGraph implements Serializable {
     this.neuralNetEdgeList = neuralNetEdgeList;
   }
 
+  public List<NeuralNetLayer> getNeuralNetLayerList() {
+    return neuralNetLayerList;
+  }
+
+  public void setNeuralNetLayerList(List<NeuralNetLayer> neuralNetLayerList) {
+    this.neuralNetLayerList = neuralNetLayerList;
+  }
+
   @Override
   public String toString() {
     return "NeuralNetGraph{" +
         "neuralNetNodeList=" + neuralNetNodeList +
         ", neuralNetEdgeList=" + neuralNetEdgeList +
+        ", neuralNetLayerList=" + neuralNetLayerList +
         '}';
   }
 }
