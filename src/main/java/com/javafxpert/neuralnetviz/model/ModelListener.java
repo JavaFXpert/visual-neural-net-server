@@ -6,6 +6,7 @@ import org.deeplearning4j.optimize.api.IterationListener;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -112,10 +113,30 @@ public class ModelListener implements IterationListener {
             Map<String,Map> newParams = new LinkedHashMap<>();
             for(Map.Entry<String,INDArray> entry : params.entrySet()) {
                 String param = entry.getKey();
-                String newName;
-                if(Character.isDigit(param.charAt(0))) newName = "param_" + param;
-                else newName = param;
+                INDArray value = entry.getValue().dup();
 
+                String newName; // TODO perhaps remove
+
+                char firstChar = param.charAt(0);
+                if(Character.isDigit(firstChar)) {
+                    newName = "param_" + param;
+
+                    int layerNum = Character.getNumericValue(firstChar);
+                    boolean containsWeights = false;
+
+                    // param should take the form of 0_W or 0_b where first digit is layer number
+                    if (param.length() == 3 && param.charAt(1) == '_' && (param.charAt(2) == 'W' || param.charAt(2) == 'b')) {
+                        containsWeights = param.charAt(2) == 'W';
+
+                        // Populate NeuralNet* model classes
+                        populateNeuralNetModel(layerNum, containsWeights, value);
+                    }
+                }
+                else {
+                    newName = param;
+                }
+
+                /*
                 System.out.println("updates newName: " + newName + " \n" + entry.getValue().dup());
                 try {
                     webSocketSession.sendMessage(new TextMessage("modelJson: " + entry.getValue().dup()));
@@ -123,6 +144,7 @@ public class ModelListener implements IterationListener {
                 catch(IOException ioe) {
                     ioe.printStackTrace();
                 }
+                */
 
 
                 /*
@@ -170,5 +192,18 @@ public class ModelListener implements IterationListener {
             }
             return layerNameIndexes.get(subStr);
         }
+    }
+
+    private void populateNeuralNetModel(int layerNum, boolean containsWeights, INDArray entry) {
+        System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
+
+        /*
+        try {
+            //webSocketSession.sendMessage(new TextMessage("modelJson: " + entry));
+        }
+        catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+        */
     }
 }
