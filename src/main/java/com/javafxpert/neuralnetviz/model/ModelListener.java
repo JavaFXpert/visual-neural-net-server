@@ -108,6 +108,9 @@ public class ModelListener implements IterationListener {
                 log.warn("Exception: " + e);
             }
 
+            // Create instance of NeuralNetGraph to populate in multiple invocations of populateNeuralNetModel()
+            NeuralNetGraph neuralNetGraph = new NeuralNetGraph();
+
             //Process parameters: duplicate + calculate and store mean magnitudes
             Map<String,INDArray> params = model.paramTable();
             Map<String,Map> newParams = new LinkedHashMap<>();
@@ -120,16 +123,18 @@ public class ModelListener implements IterationListener {
                 char firstChar = param.charAt(0);
                 if(Character.isDigit(firstChar)) {
                     newName = "param_" + param;
+                    //System.out.println("updates newName: " + newName + " \n" + entry.getValue().dup());
 
                     int layerNum = Character.getNumericValue(firstChar) + 1;
                     boolean containsWeights = false;
 
                     // param should take the form of 0_W or 0_b where first digit is layer number - 1
+                    // Assumption: "W" entry appears before "b" entry for a given layer
                     if (param.length() == 3 && param.charAt(1) == '_' && (param.charAt(2) == 'W' || param.charAt(2) == 'b')) {
                         containsWeights = param.charAt(2) == 'W';
 
                         // Populate NeuralNet* model classes
-                        populateNeuralNetModel(layerNum, containsWeights, value);
+                        populateNeuralNetModel(neuralNetGraph, layerNum, containsWeights, value);
                     }
                 }
                 else {
@@ -137,7 +142,6 @@ public class ModelListener implements IterationListener {
                 }
 
                 /*
-                System.out.println("updates newName: " + newName + " \n" + entry.getValue().dup());
                 try {
                     webSocketSession.sendMessage(new TextMessage("modelJson: " + entry.getValue().dup()));
                 }
@@ -171,6 +175,7 @@ public class ModelListener implements IterationListener {
                 double meanMag = entry.getValue().norm1Number().doubleValue() / entry.getValue().length();
                 list.add(meanMag);
             }
+            System.out.println("neuralNetGraph: " + neuralNetGraph);
 
         }
 
@@ -194,10 +199,9 @@ public class ModelListener implements IterationListener {
         }
     }
 
-    private void populateNeuralNetModel(int layerNum, boolean containsWeights, INDArray entry) {
+    private void populateNeuralNetModel(NeuralNetGraph neuralNetGraph, int layerNum, boolean containsWeights, INDArray entry) {
         System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
 
-        NeuralNetGraph neuralNetGraph = new NeuralNetGraph();
         int curNodeId = 0; // zero based
 
         // Populate a layer with nodes and edges
@@ -214,38 +218,49 @@ public class ModelListener implements IterationListener {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
                 inputLayer.getNeuralNetNodeList().add(node);
-            }
-        }
-        if (layerNum >= 1 && containsWeights) {
-            // Create a layer and add it to the NeuralNetGraph
-            NeuralNetLayer curLayer = new NeuralNetLayer();
-            curLayer.setLayerNum(layerNum);
-            neuralNetGraph.getNeuralNetLayerList().add(curLayer);
-            if (layerNum != neuralNetGraph.getNeuralNetLayerList().size() - 1) {
-                System.out.println("Unexpected condition: layerNum: " + layerNum +
-                    " should equal neuralNetGraph.getNeuralNetLayerList().size() - 1: " +
-                    (neuralNetGraph.getNeuralNetLayerList().size() - 1));
-            }
-
-            // Create/add nodes to the layer and graph for each column in the weights array
-            int numCurLayerNodes = entry.columns();
-            for (int i = 0; i < numCurLayerNodes; i++) {
-                NeuralNetNode node = new NeuralNetNode();
-                node.setId("" + curNodeId++);
-                curLayer.getNeuralNetNodeList().add(node);
                 neuralNetGraph.getNeuralNetNodeList().add(node);
             }
+        }
+        if (layerNum >= 1) {
+            if (containsWeights) {
+                // Create a layer and add it to the NeuralNetGraph
+                NeuralNetLayer curLayer = new NeuralNetLayer();
+                curLayer.setLayerNum(layerNum);
+                neuralNetGraph.getNeuralNetLayerList().add(curLayer);
+                if (layerNum != neuralNetGraph.getNeuralNetLayerList().size() - 1) {
+                    System.out.println("Unexpected condition: layerNum: " + layerNum +
+                        " should equal neuralNetGraph.getNeuralNetLayerList().size() - 1: " +
+                        (neuralNetGraph.getNeuralNetLayerList().size() - 1));
+                }
 
-            // Create/add edge to the graph for each weight
-            int numPrevLayerNodes = entry.rows();
-            for (int row = 0; row < numPrevLayerNodes; row++) {
-                for (int col = 0; col < numCurLayerNodes; col++) {
-                    NeuralNetEdge neuralNetEdge = new NeuralNetEdge();
-                    neuralNetEdge.setWeight("" + entry.getDouble(row, col));
-                    neuralNetEdge.setArrowDirection("to");
-                    neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum - 1).getNeuralNetNodeList().get(row));
-                    neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum).getNeuralNetNodeList().get(col));
-                    neuralNetGraph.getNeuralNetEdgeList().add(neuralNetEdge);
+                // Create/add nodes to the layer and graph for each column in the weights array
+                int numCurLayerNodes = entry.columns();
+                for (int i = 0; i < numCurLayerNodes; i++) {
+                    NeuralNetNode node = new NeuralNetNode();
+                    node.setId("" + curNodeId++);
+                    curLayer.getNeuralNetNodeList().add(node);
+                    neuralNetGraph.getNeuralNetNodeList().add(node);
+                }
+
+                // Create/add edge to the graph for each weight
+                int numPrevLayerNodes = entry.rows();
+                for (int row = 0; row < numPrevLayerNodes; row++) {
+                    for (int col = 0; col < numCurLayerNodes; col++) {
+                        NeuralNetEdge neuralNetEdge = new NeuralNetEdge();
+                        neuralNetEdge.setWeight("" + entry.getDouble(row, col));
+                        neuralNetEdge.setArrowDirection("to");
+                        neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum - 1).getNeuralNetNodeList().get(row));
+                        neuralNetEdge.setToId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum).getNeuralNetNodeList().get(col));
+                        neuralNetGraph.getNeuralNetEdgeList().add(neuralNetEdge);
+                    }
+                }
+            }
+            else {
+                // This entry contains biases so update the nodes in this layer with them
+                NeuralNetLayer currentLayer = neuralNetGraph.getNeuralNetLayerList().get(layerNum);
+                int numBiases = entry.columns();
+                for (int bIdx = 0; bIdx < numBiases; bIdx++) {
+                    currentLayer.getNeuralNetNodeList().get(bIdx).setBias("" + entry.getDouble(bIdx));
                 }
             }
         }
