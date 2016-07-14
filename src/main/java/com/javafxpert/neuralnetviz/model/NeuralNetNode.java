@@ -16,6 +16,7 @@ public class NeuralNetNode {
   private String bias;
 
   public NeuralNetNode() {
+    this.bias = "";
   }
 
   public NeuralNetNode(String id, String bias) {

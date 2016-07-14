@@ -44,8 +44,8 @@ public class CounterHandler extends TextWebSocketHandler {
             session.close();
         }
         else if ("{\"name\":\"Fred\"}".equalsIgnoreCase(message.getPayload())) {
-            XorExample.go(session);
-            //CSVExample.go(session);
+            //XorExample.go(session);
+            CSVExample.go(session);
         }
         else {
             System.out.println("Received:" + message.getPayload());

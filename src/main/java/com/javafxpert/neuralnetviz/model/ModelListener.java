@@ -1,5 +1,7 @@
 package com.javafxpert.neuralnetviz.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.deeplearning4j.nn.api.Model;
 import org.deeplearning4j.optimize.api.IterationListener;
 
@@ -28,6 +30,9 @@ public class ModelListener implements IterationListener {
     private WebSocketSession webSocketSession;
 
     private int iters = 0;
+
+    private NeuralNetGraph neuralNetGraph;
+    private int curNodeId = 0;
 
     public ModelListener(int iterations, WebSocketSession webSocketSession) {
         this.iterations = iterations;
@@ -109,7 +114,8 @@ public class ModelListener implements IterationListener {
             }
 
             // Create instance of NeuralNetGraph to populate in multiple invocations of populateNeuralNetModel()
-            NeuralNetGraph neuralNetGraph = new NeuralNetGraph();
+            neuralNetGraph = new NeuralNetGraph();
+            curNodeId = 0; // NeuralNetNode instances have zero based node IDs
 
             //Process parameters: duplicate + calculate and store mean magnitudes
             Map<String,INDArray> params = model.paramTable();
@@ -177,6 +183,15 @@ public class ModelListener implements IterationListener {
             }
             System.out.println("neuralNetGraph: " + neuralNetGraph);
 
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = "";
+            try {
+                jsonString = mapper.writeValueAsString(neuralNetGraph);
+            }
+            catch (JsonProcessingException jpe) {
+                System.out.println("Exception serializing neuralNetGraph: " + jpe);
+            }
+            System.out.println("neuralNetGraph: \n\n" + jsonString);
         }
 
     }
@@ -202,8 +217,6 @@ public class ModelListener implements IterationListener {
     private void populateNeuralNetModel(NeuralNetGraph neuralNetGraph, int layerNum, boolean containsWeights, INDArray entry) {
         System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
 
-        int curNodeId = 0; // zero based
-
         // Populate a layer with nodes and edges
         if (layerNum == 1 && containsWeights) {
             // Create nodes for layer 0 (the input layer), as they are not reported and contain no weights or bias or edges
@@ -217,6 +230,7 @@ public class ModelListener implements IterationListener {
             for (int i = 0; i < numInputLayerNodes; i++) {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
+                node.setBias("");
                 inputLayer.getNeuralNetNodeList().add(node);
                 neuralNetGraph.getNeuralNetNodeList().add(node);
             }
@@ -247,10 +261,10 @@ public class ModelListener implements IterationListener {
                 for (int row = 0; row < numPrevLayerNodes; row++) {
                     for (int col = 0; col < numCurLayerNodes; col++) {
                         NeuralNetEdge neuralNetEdge = new NeuralNetEdge();
-                        neuralNetEdge.setWeight("" + entry.getDouble(row, col));
+                        neuralNetEdge.setWeight("" + Math.round(entry.getDouble(row, col) * 100) / 100d);
                         neuralNetEdge.setArrowDirection("to");
-                        neuralNetEdge.setFromId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum - 1).getNeuralNetNodeList().get(row));
-                        neuralNetEdge.setToId("" + neuralNetGraph.getNeuralNetLayerList().get(layerNum).getNeuralNetNodeList().get(col));
+                        neuralNetEdge.setFromId(neuralNetGraph.getNeuralNetLayerList().get(layerNum - 1).getNeuralNetNodeList().get(row).getId());
+                        neuralNetEdge.setToId(neuralNetGraph.getNeuralNetLayerList().get(layerNum).getNeuralNetNodeList().get(col).getId());
                         neuralNetGraph.getNeuralNetEdgeList().add(neuralNetEdge);
                     }
                 }
@@ -260,7 +274,7 @@ public class ModelListener implements IterationListener {
                 NeuralNetLayer currentLayer = neuralNetGraph.getNeuralNetLayerList().get(layerNum);
                 int numBiases = entry.columns();
                 for (int bIdx = 0; bIdx < numBiases; bIdx++) {
-                    currentLayer.getNeuralNetNodeList().get(bIdx).setBias("" + entry.getDouble(bIdx));
+                    currentLayer.getNeuralNetNodeList().get(bIdx).setBias("" + Math.round(entry.getDouble(bIdx) * 100) / 100d);
                 }
             }
         }
