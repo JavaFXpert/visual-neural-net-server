@@ -44,18 +44,13 @@ public class CSVExample {
         String delimiter = ",";
         RecordReader recordReader = new CSVRecordReader(numLinesToSkip,delimiter);
         //recordReader.initialize(new FileSplit(new ClassPathResource("iris.txt").getFile()));
-        recordReader.initialize(new InputStreamInputSplit(new URL("http://learnjavafx.typepad.com/iris.txt").openStream()));
-
-        System.out.println("After recordReader.initialize()");
+        recordReader.initialize(new InputStreamInputSplit(new URL("http://learnjavafx.typepad.com/mle/iris.txt").openStream()));
 
         //Second: the RecordReaderDataSetIterator handles conversion to DataSet objects, ready for use in neural network
         int labelIndex = 4;     //5 values in each row of the iris.txt CSV: 4 input features followed by an integer label (class) index. Labels are the 5th value (index 4) in each row
         int numClasses = 3;     //3 classes (types of iris flowers) in the iris data set. Classes have integer values 0, 1 or 2
         int batchSize = 150;    //Iris data set: 150 examples total. We are loading all of them into one DataSet (not recommended for large data sets)
         DataSetIterator iterator = new RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
-
-        System.out.println("After DataSetIterator iterator: " + iterator);
-
 
         DataSet next = iterator.next();
 
@@ -90,7 +85,7 @@ public class CSVExample {
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));
-        model.setListeners(new ModelListener(9999, webSocketSession));
+        model.setListeners(new ModelListener(10, webSocketSession));
 
         //Normalize the full data set. Our DataSet 'next' contains the full 150 examples
         next.normalizeZeroMeanZeroUnitVariance();
@@ -105,17 +100,19 @@ public class CSVExample {
         Evaluation eval = new Evaluation(3);
         DataSet test = testAndTrain.getTest();
         INDArray output = model.output(test.getFeatureMatrix());
-        System.out.println("output: " + output);
+        //System.out.println("output: " + output);
 
+        /*
         for (int i = 0; i < output.rows(); i++) {
             String actual = trainingData.getLabels().getRow(i).toString().trim();
             String predicted = output.getRow(i).toString().trim();
             System.out.println("actual " + actual + " vs predicted " + predicted);
         }
+        */
 
         eval.eval(test.getLabels(), output);
-        log.info(eval.stats());
-        displayNetwork(model);
+        //log.info(eval.stats());
+        //displayNetwork(model);
 
         // Make prediction
         // Input: 6.7,3.0,5.2,2.3  Expected output: 2

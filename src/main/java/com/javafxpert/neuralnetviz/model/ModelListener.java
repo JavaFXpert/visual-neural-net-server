@@ -53,12 +53,12 @@ public class ModelListener implements IterationListener {
     public void iterationDone(Model model, int iteration) {
         //log.warn("iters++ " + iters++);
         if(iteration % iterations == 0) {
-            System.out.println("In iterationDone():");
+            //System.out.println("In iterationDone():");
             Map<String, Map> newGrad = new LinkedHashMap<>();
             try {
                 Map<String, INDArray> grad = model.gradient().gradientForVariable();
 
-                log.warn("Starting report building...");
+                //log.warn("Starting report building...");
 
                 if (meanMagHistoryParams.size() == 0) {
                     //Initialize:
@@ -148,16 +148,6 @@ public class ModelListener implements IterationListener {
                 }
 
                 /*
-                try {
-                    webSocketSession.sendMessage(new TextMessage("modelJson: " + entry.getValue().dup()));
-                }
-                catch(IOException ioe) {
-                    ioe.printStackTrace();
-                }
-                */
-
-
-                /*
                 HistogramBin histogram = new HistogramBin.Builder(entry.getValue().dup())
                     .setBinCount(20)
                     .setRounding(6)
@@ -181,7 +171,6 @@ public class ModelListener implements IterationListener {
                 double meanMag = entry.getValue().norm1Number().doubleValue() / entry.getValue().length();
                 list.add(meanMag);
             }
-            System.out.println("neuralNetGraph: " + neuralNetGraph);
 
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = "";
@@ -191,7 +180,14 @@ public class ModelListener implements IterationListener {
             catch (JsonProcessingException jpe) {
                 System.out.println("Exception serializing neuralNetGraph: " + jpe);
             }
-            System.out.println("neuralNetGraph: \n\n" + jsonString);
+            //System.out.println("neuralNetGraph: \n\n" + jsonString);
+
+            try {
+                webSocketSession.sendMessage(new TextMessage(jsonString));
+            }
+            catch(IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
 
     }
@@ -215,7 +211,7 @@ public class ModelListener implements IterationListener {
     }
 
     private void populateNeuralNetModel(NeuralNetGraph neuralNetGraph, int layerNum, boolean containsWeights, INDArray entry) {
-        System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
+        //System.out.println("In populateNeuralNetModel, layerNum: " + layerNum + ", containsWeights: " + containsWeights + ", entry: " + entry);
 
         // Populate a layer with nodes and edges
         if (layerNum == 1 && containsWeights) {
@@ -231,6 +227,7 @@ public class ModelListener implements IterationListener {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
                 node.setBias("");
+                node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
                 inputLayer.getNeuralNetNodeList().add(node);
                 neuralNetGraph.getNeuralNetNodeList().add(node);
             }
@@ -252,6 +249,7 @@ public class ModelListener implements IterationListener {
                 for (int i = 0; i < numCurLayerNodes; i++) {
                     NeuralNetNode node = new NeuralNetNode();
                     node.setId("" + curNodeId++);
+                    node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
                     curLayer.getNeuralNetNodeList().add(node);
                     neuralNetGraph.getNeuralNetNodeList().add(node);
                 }
