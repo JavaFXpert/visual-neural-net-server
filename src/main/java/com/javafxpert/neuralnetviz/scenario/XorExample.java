@@ -35,13 +35,13 @@ import org.springframework.web.socket.WebSocketSession;
 public class XorExample {
 	public static void go(WebSocketSession webSocketSession) throws  Exception {
 
-		System.out.println("In XorExample.go()");
+		//System.out.println("In XorExample.go()");
 
 		// list off input values, 4 training samples with data for 2
 		// input-neurons each
 		INDArray input = Nd4j.zeros(4, 2);
 
-		System.out.println("After INDArray input: " + input);
+		//System.out.println("After INDArray input: " + input);
 
 
 		// correspondending list with expected output values, 4 training samples
@@ -77,12 +77,12 @@ public class XorExample {
 		labels.putScalar(new int[] { 3, 0 }, 1);
 		labels.putScalar(new int[] { 3, 1 }, 0);
 
-		System.out.println("Before DataSet ds");
+		//System.out.println("Before DataSet ds");
 
 		// create dataset object
 		DataSet ds = new DataSet(input, labels);
 
-		System.out.println("After DataSet ds: " + ds);
+		//System.out.println("After DataSet ds: " + ds);
 
 		// Set up network configuration
 		NeuralNetConfiguration.Builder builder = new NeuralNetConfiguration.Builder();
@@ -167,7 +167,7 @@ public class XorExample {
 
 		// add an listener which outputs the error every 100 parameter updates
 		//net.setListeners(new ScoreIterationListener(100));
-        net.setListeners(new ModelListener(1000, webSocketSession));
+        net.setListeners(new ModelListener(10, webSocketSession));
 
 		// C&P from GravesLSTMCharModellingExample
 		// Print the number of parameters in the network (and for each layer)
@@ -175,32 +175,32 @@ public class XorExample {
 		int totalNumParams = 0;
 		for (int i = 0; i < layers.length; i++) {
 			int nParams = layers[i].numParams();
-			System.out.println("Number of parameters in layer " + i + ": " + nParams);
+			//System.out.println("Number of parameters in layer " + i + ": " + nParams);
 			totalNumParams += nParams;
 		}
-		System.out.println("Total number of network parameters: " + totalNumParams);
+		//System.out.println("Total number of network parameters: " + totalNumParams);
 
 		// here the actual learning takes place
 		net.fit(ds);
 
 		// create output for every training sample
 		INDArray output = net.output(ds.getFeatureMatrix());
-        System.out.println("output: " + output);
+        //System.out.println("output: " + output);
 
         for (int i = 0; i < output.rows(); i++) {
             String actual = ds.getLabels().getRow(i).toString().trim();
             String predicted = output.getRow(i).toString().trim();
-            System.out.println("actual " + actual + " vs predicted " + predicted);
+            //System.out.println("actual " + actual + " vs predicted " + predicted);
         }
 
 		// let Evaluation prints stats how often the right output had the
 		// highest value
 		Evaluation eval = new Evaluation(2);
-		eval.eval(ds.getLabels(), output);
-		System.out.println(eval.stats());
+		//eval.eval(ds.getLabels(), output);
+		//System.out.println(eval.stats());
 
 
-        displayNetwork(net);
+        //displayNetwork(net);
 
         // Make prediction
         INDArray example = Nd4j.zeros(1, 2);

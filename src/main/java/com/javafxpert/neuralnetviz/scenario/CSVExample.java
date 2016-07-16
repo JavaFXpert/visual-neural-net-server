@@ -54,7 +54,7 @@ public class CSVExample {
 
         DataSet next = iterator.next();
 
-        System.out.println("After DataSet next: " + next);
+        //System.out.println("After DataSet next: " + next);
 
         final int numInputs = 4;
         int outputNum = 3;
@@ -62,7 +62,7 @@ public class CSVExample {
         long seed = 6;
 
 
-        System.out.println("Build model....");
+        //System.out.println("Build model....");
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(seed)
             .iterations(iterations)
@@ -110,7 +110,7 @@ public class CSVExample {
         }
         */
 
-        eval.eval(test.getLabels(), output);
+        //eval.eval(test.getLabels(), output);
         //log.info(eval.stats());
         //displayNetwork(model);
 

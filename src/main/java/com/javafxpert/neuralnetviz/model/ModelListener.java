@@ -227,7 +227,7 @@ public class ModelListener implements IterationListener {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
                 node.setBias("");
-                node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
+                node.setImage("http://learnjavafx.typepad.com/mle/input.png");
                 inputLayer.getNeuralNetNodeList().add(node);
                 neuralNetGraph.getNeuralNetNodeList().add(node);
             }
