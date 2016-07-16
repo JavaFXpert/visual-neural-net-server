@@ -231,7 +231,8 @@ public class ModelListener implements IterationListener {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
                 node.setBias("");
-                node.setImage("http://learnjavafx.typepad.com/mle/input.png");
+                //node.setImage("http://learnjavafx.typepad.com/mle/input.png");
+                node.setImage("http://bit.ly/29PwoTB");
                 inputLayer.getNeuralNetNodeList().add(node);
                 neuralNetGraph.getNeuralNetNodeList().add(node);
             }
@@ -253,7 +254,8 @@ public class ModelListener implements IterationListener {
                 for (int i = 0; i < numCurLayerNodes; i++) {
                     NeuralNetNode node = new NeuralNetNode();
                     node.setId("" + curNodeId++);
-                    node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
+                    //node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
+                    node.setImage("http://bit.ly/29D7bff");
                     curLayer.getNeuralNetNodeList().add(node);
                     neuralNetGraph.getNeuralNetNodeList().add(node);
                 }

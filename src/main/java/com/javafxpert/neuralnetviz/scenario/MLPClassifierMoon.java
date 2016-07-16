@@ -145,6 +145,14 @@ public class MLPClassifierMoon {
         INDArray testPredicted = model.output(ds.getFeatures());
         //PlotUtil.plotTestData(ds.getFeatures(), ds.getLabels(), testPredicted, allXYPoints, predictionsAtXYPoints, nPointsPerAxis);
 
+        // Make prediction
+        // Input: 0.6236,-0.7822  Expected output: 1
+        INDArray example = Nd4j.zeros(1, 2);
+        example.putScalar(new int[] { 0, 0 }, 0.6236);
+        example.putScalar(new int[] { 0, 1 }, -0.7822);
+        int[] prediction = model.predict(example);
+        System.out.println("prediction for 0.6236, -0.7822: " + prediction[0]);
+
         System.out.println("****************Example finished********************");
     }
 
