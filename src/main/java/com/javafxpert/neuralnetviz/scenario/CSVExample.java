@@ -85,7 +85,7 @@ public class CSVExample {
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));
-        model.setListeners(new ModelListener(10, webSocketSession));
+        model.setListeners(new ModelListener(100, webSocketSession));
 
         //Normalize the full data set. Our DataSet 'next' contains the full 150 examples
         next.normalizeZeroMeanZeroUnitVariance();
