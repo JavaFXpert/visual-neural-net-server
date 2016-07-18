@@ -230,7 +230,13 @@ public class ModelListener implements IterationListener {
             for (int i = 0; i < numInputLayerNodes; i++) {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
+
                 node.setBias("");
+
+                //TODO: generalize
+                //String[] features = {"arractive", "intelligent", "fun"};
+                //node.setBias(features[i]);
+
                 //node.setImage("http://learnjavafx.typepad.com/mle/input.png");
                 node.setImage("http://bit.ly/29PwoTB");
                 inputLayer.getNeuralNetNodeList().add(node);

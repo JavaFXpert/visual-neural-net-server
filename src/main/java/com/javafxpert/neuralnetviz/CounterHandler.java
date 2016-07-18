@@ -4,6 +4,7 @@ import com.javafxpert.neuralnetviz.scenario.CSVExample;
 import com.javafxpert.neuralnetviz.scenario.MLPClassifierMoon;
 import com.javafxpert.neuralnetviz.scenario.MLPMnistTwoLayerExample;
 import com.javafxpert.neuralnetviz.scenario.XorExample;
+import com.javafxpert.neuralnetviz.scenario.SpeedDating;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -53,6 +54,9 @@ public class CounterHandler extends TextWebSocketHandler {
         }
         else if ("{\"name\":\"MLPClassifierMoon\"}".equalsIgnoreCase(message.getPayload())) {
             MLPClassifierMoon.go(session);
+        }
+        else if ("{\"name\":\"SpeedDating\"}".equalsIgnoreCase(message.getPayload())) {
+            SpeedDating.go(session);
         }
         else {
             System.out.println("Received:" + message.getPayload());
