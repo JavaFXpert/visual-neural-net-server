@@ -44,7 +44,7 @@ public class MLPClassifierMoon {
 
         int numInputs = 2;
         int numOutputs = 2;
-        int numHiddenNodes = 20;
+        int numHiddenNodes = 8;
 
         //Load the training data:
         RecordReader rr = new CSVRecordReader();

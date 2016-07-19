@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,6 +40,8 @@ public class MultiLayerNetworkController {
     // Validate the number of values submitted into this service matches number of input values in the network
     if (numValues > 0 && numValues == numInputColumns) {
 
+      predictionResponse = new PredictionResponse();
+
       // Make prediction
       // Input: 0.6236,-0.7822  Expected output: 1
       INDArray example = Nd4j.zeros(1, numValues);
@@ -46,9 +49,15 @@ public class MultiLayerNetworkController {
         example.putScalar(new int[] { 0, valueIdx }, valuesArray[valueIdx]);
       }
       int[] prediction = network.predict(example);
+      predictionResponse.setPrediction(prediction[0]);
       System.out.println("prediction: " + prediction[0]);
 
-      predictionResponse = new PredictionResponse(prediction[0]);
+      List<INDArray> layerActivationsList = network.feedForward(example);
+      for (INDArray layerActivations : layerActivationsList) {
+        for (int activationIdx = 0; activationIdx < layerActivations.length(); activationIdx++) {
+          predictionResponse.getActivations().add(new Double(layerActivations.getDouble(activationIdx)));
+        }
+      }
     }
 
     return Optional.ofNullable(predictionResponse)
