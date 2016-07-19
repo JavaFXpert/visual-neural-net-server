@@ -2,9 +2,9 @@ package com.javafxpert.neuralnetviz;
 
 import com.javafxpert.neuralnetviz.scenario.CSVExample;
 import com.javafxpert.neuralnetviz.scenario.MLPClassifierMoon;
-import com.javafxpert.neuralnetviz.scenario.MLPMnistTwoLayerExample;
 import com.javafxpert.neuralnetviz.scenario.XorExample;
 import com.javafxpert.neuralnetviz.scenario.SpeedDating;
+import com.javafxpert.neuralnetviz.state.MultiLayerNetworkState;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -47,16 +47,16 @@ public class CounterHandler extends TextWebSocketHandler {
             session.close();
         }
         else if ("{\"name\":\"XorExample\"}".equalsIgnoreCase(message.getPayload())) {
-            XorExample.go(session);
+            MultiLayerNetworkState.setNeuralNetworkModel(XorExample.buildNetwork(session));
         }
         else if ("{\"name\":\"CSVExample\"}".equalsIgnoreCase(message.getPayload())) {
-            CSVExample.go(session);
+            MultiLayerNetworkState.setNeuralNetworkModel(CSVExample.buildNetwork(session));
         }
         else if ("{\"name\":\"MLPClassifierMoon\"}".equalsIgnoreCase(message.getPayload())) {
-            MLPClassifierMoon.go(session);
+            MultiLayerNetworkState.setNeuralNetworkModel(MLPClassifierMoon.buildNetwork(session));
         }
         else if ("{\"name\":\"SpeedDating\"}".equalsIgnoreCase(message.getPayload())) {
-            SpeedDating.go(session);
+            MultiLayerNetworkState.setNeuralNetworkModel(SpeedDating.buildNetwork(session));
         }
         else {
             System.out.println("Received:" + message.getPayload());

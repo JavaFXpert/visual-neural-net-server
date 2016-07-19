@@ -32,7 +32,7 @@ import java.io.File;
  */
 public class SpeedDating {
 
-    public static void go(WebSocketSession webSocketSession) throws  Exception {
+    public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
     //public static void main(String args[]) throws  Exception {
         int seed = 123;
         double learningRate = 0.005;
@@ -106,6 +106,8 @@ public class SpeedDating {
         System.out.println("prediction for 7 (attractive), 8 (intelligent), 9 (fun): " + prediction[0]);
 
         System.out.println("****************Example finished********************");
+
+        return model;
     }
 
 }

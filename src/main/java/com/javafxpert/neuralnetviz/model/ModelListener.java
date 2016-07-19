@@ -234,7 +234,7 @@ public class ModelListener implements IterationListener {
                 node.setBias("");
 
                 //TODO: generalize
-                //String[] features = {"arractive", "intelligent", "fun"};
+                //String[] features = {"attractive", "intelligent", "fun"};
                 //node.setBias(features[i]);
 
                 //node.setImage("http://learnjavafx.typepad.com/mle/input.png");

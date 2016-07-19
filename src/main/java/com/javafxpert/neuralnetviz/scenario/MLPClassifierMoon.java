@@ -36,7 +36,7 @@ import java.io.File;
  */
 public class MLPClassifierMoon {
 
-    public static void go(WebSocketSession webSocketSession) throws  Exception {
+    public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
         int seed = 123;
         double learningRate = 0.005;
         int batchSize = 50;
@@ -154,6 +154,8 @@ public class MLPClassifierMoon {
         System.out.println("prediction for 0.6236, -0.7822: " + prediction[0]);
 
         System.out.println("****************Example finished********************");
+
+        return model;
     }
 
 }

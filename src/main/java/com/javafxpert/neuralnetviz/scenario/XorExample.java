@@ -13,6 +13,7 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer.Builder;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.params.DefaultParamInitializer;
 import org.deeplearning4j.nn.weights.WeightInit;
+//import org.deeplearning4j.ui.weights.HistogramIterationListener;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
@@ -33,7 +34,8 @@ import org.springframework.web.socket.WebSocketSession;
  *
  */
 public class XorExample {
-	public static void go(WebSocketSession webSocketSession) throws  Exception {
+	public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
+	//public static void main(String[] args) throws  Exception {
 
 		//System.out.println("In XorExample.go()");
 
@@ -167,7 +169,7 @@ public class XorExample {
 
 		// add an listener which outputs the error every 100 parameter updates
 		//net.setListeners(new ScoreIterationListener(100));
-        net.setListeners(new ModelListener(100, webSocketSession));
+		net.setListeners(new ModelListener(100, webSocketSession));
 
 		// C&P from GravesLSTMCharModellingExample
 		// Print the number of parameters in the network (and for each layer)
@@ -211,7 +213,9 @@ public class XorExample {
 
         int[] prediction = net.predict(example);
 
-        System.out.println("prediction for 0, 0: " + prediction[0]);
+        System.out.println("prediction for 0, 1: " + prediction[0]);
+
+		    return net;
     }
 
     static void displayNetwork(MultiLayerNetwork mln) {

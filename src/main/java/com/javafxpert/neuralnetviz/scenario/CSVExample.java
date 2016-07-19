@@ -35,7 +35,7 @@ public class CSVExample {
 
     private static Logger log = LoggerFactory.getLogger(CSVExample.class);
 
-    public static void go(WebSocketSession webSocketSession) throws  Exception {
+    public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
 
         System.out.println("In CSVExample.go()");
 
@@ -102,20 +102,18 @@ public class CSVExample {
         INDArray output = model.output(test.getFeatureMatrix());
         //System.out.println("output: " + output);
 
-        /*
         for (int i = 0; i < output.rows(); i++) {
             String actual = trainingData.getLabels().getRow(i).toString().trim();
             String predicted = output.getRow(i).toString().trim();
             System.out.println("actual " + actual + " vs predicted " + predicted);
         }
-        */
 
-        //eval.eval(test.getLabels(), output);
-        //log.info(eval.stats());
+        eval.eval(test.getLabels(), output);
+        System.out.println(eval.stats());
         //displayNetwork(model);
 
         // Make prediction
-        // Input: 6.7,3.0,5.2,2.3  Expected output: 2
+        // Input: 6.7, 3.0, 5.2, 2.3  Expected output: 2
         INDArray example = Nd4j.zeros(1, 4);
         example.putScalar(new int[] { 0, 0 }, 6.7);
         example.putScalar(new int[] { 0, 1 }, 3.0);
@@ -124,7 +122,9 @@ public class CSVExample {
 
         int[] prediction = model.predict(example);
 
-        System.out.println("prediction for 6.7,3.0,5.2: " + prediction[0]);
+        System.out.println("prediction for 6.7, 3.0, 5.2, 2.3: " + prediction[0]);
+
+        return model;
 
     }
 

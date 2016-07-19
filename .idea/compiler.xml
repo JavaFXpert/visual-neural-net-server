@@ -27,8 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="deeplearning4j-examples" target="1.8" />
-      <module name="visual-neural-net-server" target="1.7" />
+      <module name="visual-neural-net-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
