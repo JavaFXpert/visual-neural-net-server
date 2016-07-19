@@ -3,6 +3,7 @@ package com.javafxpert.neuralnetviz.controller;
 import com.javafxpert.neuralnetviz.model.multilayernetwork.PredictionResponse;
 import com.javafxpert.neuralnetviz.state.MultiLayerNetworkState;
 import com.javafxpert.neuralnetviz.util.AppUtils;
+import org.deeplearning4j.nn.api.Layer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -44,24 +45,45 @@ public class MultiLayerNetworkController {
 
       // Make prediction
       // Input: 0.6236,-0.7822  Expected output: 1
-      INDArray example = Nd4j.zeros(1, numValues);
+      INDArray features = Nd4j.zeros(1, numValues);
       for (int valueIdx = 0; valueIdx < numValues; valueIdx++) {
-        example.putScalar(new int[] { 0, valueIdx }, valuesArray[valueIdx]);
+        features.putScalar(new int[] { 0, valueIdx }, valuesArray[valueIdx]);
       }
-      int[] prediction = network.predict(example);
-      predictionResponse.setPrediction(prediction[0]);
-      System.out.println("prediction: " + prediction[0]);
-
-      List<INDArray> layerActivationsList = network.feedForward(example);
-      for (INDArray layerActivations : layerActivationsList) {
-        for (int activationIdx = 0; activationIdx < layerActivations.length(); activationIdx++) {
-          predictionResponse.getActivations().add(new Double(layerActivations.getDouble(activationIdx)));
-        }
-      }
+      predictionResponse = predict(features);
     }
 
     return Optional.ofNullable(predictionResponse)
         .map(cr -> new ResponseEntity<>((Object)cr, HttpStatus.OK))
         .orElse(new ResponseEntity<>("Prediction unsuccessful", HttpStatus.INTERNAL_SERVER_ERROR));
   }
+
+  /**
+   * Modification of predict() method in dl4j library for the purpose of retrieving activation at prediction time
+   * @param featuresMatrix
+   * @return PredictionResponse
+   */
+  public PredictionResponse predict(INDArray featuresMatrix) {
+    PredictionResponse retVal = new PredictionResponse();
+    MultiLayerNetwork network = MultiLayerNetworkState.getNeuralNetworkModel();
+    INDArray output = network.output(featuresMatrix, false);
+
+    List<INDArray> layerActivationsList = network.feedForward(featuresMatrix);
+    for (INDArray layerActivations : layerActivationsList) {
+      for (int activationIdx = 0; activationIdx < layerActivations.length(); activationIdx++) {
+        double activation = Math.round(layerActivations.getDouble(activationIdx) * 100) / 100d;
+        retVal.getActivations().add(new Double(activation));
+      }
+    }
+
+    int[] prediction = new int[featuresMatrix.size(0)];
+    if (featuresMatrix.isRowVector()) prediction[0] = Nd4j.getBlasWrapper().iamax(output);
+    else {
+      for (int i = 0; i < prediction.length; i++)
+        prediction[i] = Nd4j.getBlasWrapper().iamax(output.getRow(i));
+    }
+    retVal.setPrediction(prediction[0]);
+    return retVal;
+  }
+
+
 }
