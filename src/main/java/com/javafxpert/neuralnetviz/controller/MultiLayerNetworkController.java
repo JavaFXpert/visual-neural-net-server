@@ -10,10 +10,7 @@ import org.nd4j.linalg.factory.Nd4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +21,7 @@ import java.util.Optional;
 @RestController
 public class MultiLayerNetworkController {
   // The values parameter takes a comma separated list of numbers representing feature values
+  @CrossOrigin(origins = "http://localhost:4200")
   @RequestMapping(value = "/prediction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> renderClaims(@RequestParam(value = "values")
                                              String values) {
