@@ -42,7 +42,7 @@ public class SpeedDating {
 
         int numInputs = 3;
         int numOutputs = 2;
-        int numHiddenNodes = 4;
+        int numHiddenNodes = 6;
 
         //Load the training data:
         RecordReader rr = new CSVRecordReader();
@@ -74,7 +74,7 @@ public class SpeedDating {
 
 
         String[] inputFeatureNames = {"Attractive", "Intelligent", "Fun"};
-        String[] outputLabelNames = {"Date again", "No second date"};
+        String[] outputLabelNames = {"No second date", "Date again"};
         MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates

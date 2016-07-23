@@ -266,13 +266,6 @@ public class ModelListener implements IterationListener {
                     //node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
                     node.setImage("http://bit.ly/29D7bff");
 
-                    if (layerNum == multiLayerNetworkEnhanced.getLayers().length - 1) {
-                        String outputLabelNames[] = multiLayerNetworkEnhanced.getOutputLabelNames();
-                        if (outputLabelNames != null && outputLabelNames.length > i) {
-                            node.setName(outputLabelNames[i]);
-                        }
-                    }
-
                     curLayer.getNeuralNetNodeList().add(node);
                     neuralNetGraph.getNeuralNetNodeList().add(node);
                 }
@@ -295,7 +288,19 @@ public class ModelListener implements IterationListener {
                 NeuralNetLayer currentLayer = neuralNetGraph.getNeuralNetLayerList().get(layerNum);
                 int numBiases = entry.columns();
                 for (int bIdx = 0; bIdx < numBiases; bIdx++) {
-                    currentLayer.getNeuralNetNodeList().get(bIdx).setBias("" + Math.round(entry.getDouble(bIdx) * 100) / 100d);
+                    NeuralNetNode neuralNetNode = currentLayer.getNeuralNetNodeList().get(bIdx);
+                    neuralNetNode.setBias("" + Math.round(entry.getDouble(bIdx) * 100) / 100d);
+
+                    // Concatenate the output label to the bias so that it appears on the neural network visualization
+                    // Note: The getLayers() method returns an array of layers in which there is no input layer
+                    //       (there is no input layer in the MultiLayerNetwork)
+                    if (layerNum == multiLayerNetworkEnhanced.getLayers().length) {
+                        String outputLabelNames[] = multiLayerNetworkEnhanced.getOutputLabelNames();
+                        if (outputLabelNames != null && outputLabelNames.length > bIdx) {
+                            neuralNetNode.setBias(neuralNetNode.getBias() + "\n" + outputLabelNames[bIdx]);
+                        }
+                    }
+
                 }
             }
         }
