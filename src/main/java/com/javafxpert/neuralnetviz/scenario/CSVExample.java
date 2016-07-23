@@ -1,6 +1,7 @@
 package com.javafxpert.neuralnetviz.scenario;
 
 import com.javafxpert.neuralnetviz.model.ModelListener;
+import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
 import org.canova.api.records.reader.RecordReader;
 import org.canova.api.records.reader.impl.CSVRecordReader;
 import org.canova.api.split.FileSplit;
@@ -82,7 +83,9 @@ public class CSVExample {
             .build();
 
         //run the model
-        MultiLayerNetwork model = new MultiLayerNetwork(conf);
+        String[] inputFeatureNames = {"Sepal length", "Sepal width", "Petal length", "Petal width"};
+        String[] outputLabelNames = {"I. setosa", "I. versicolor", "I. virginica"};
+        MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));
         model.setListeners(new ModelListener(100, webSocketSession));

@@ -1,5 +1,6 @@
 package com.javafxpert.neuralnetviz.scenario;
 
+import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
 import org.deeplearning4j.eval.Evaluation;
 import com.javafxpert.neuralnetviz.model.ModelListener;
 import org.deeplearning4j.nn.api.Layer;
@@ -164,7 +165,10 @@ public class XorExample {
 		// build and init the network, will check if everything is configured
 		// correct
 		MultiLayerConfiguration conf = listBuilder.build();
-		MultiLayerNetwork net = new MultiLayerNetwork(conf);
+
+		String[] inputFeatureNames = {"input A", "input B"};
+		String[] outputLabelNames = {"false", "true"};
+		MultiLayerNetwork net = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
 		net.init();
 
 		// add an listener which outputs the error every 100 parameter updates
