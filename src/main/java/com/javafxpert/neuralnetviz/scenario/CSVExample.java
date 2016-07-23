@@ -2,32 +2,27 @@ package com.javafxpert.neuralnetviz.scenario;
 
 import com.javafxpert.neuralnetviz.model.ModelListener;
 import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
-import org.canova.api.records.reader.RecordReader;
-import org.canova.api.records.reader.impl.CSVRecordReader;
-import org.canova.api.split.FileSplit;
-import org.canova.api.split.InputStreamInputSplit;
-import org.deeplearning4j.datasets.canova.RecordReaderDataSetIterator;
+import org.datavec.api.records.reader.RecordReader;
+import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
+import org.datavec.api.split.FileSplit;
+import org.datavec.api.util.ClassPathResource;
+import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
 import org.deeplearning4j.eval.Evaluation;
-import org.deeplearning4j.nn.api.Layer;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-//import org.deeplearning4j.ui.weights.HistogramIterationListener;
+import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.SplitTestAndTrain;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.socket.WebSocketSession;
-
-import java.net.URL;
 
 /**
  * @author Adam Gibson
@@ -37,15 +32,13 @@ public class CSVExample {
     private static Logger log = LoggerFactory.getLogger(CSVExample.class);
 
     public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
-
-        System.out.println("In CSVExample.go()");
+    //public static void main(String[] args) throws  Exception {
 
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
         int numLinesToSkip = 0;
         String delimiter = ",";
         RecordReader recordReader = new CSVRecordReader(numLinesToSkip,delimiter);
-        //recordReader.initialize(new FileSplit(new ClassPathResource("iris.txt").getFile()));
-        recordReader.initialize(new InputStreamInputSplit(new URL("http://learnjavafx.typepad.com/mle/iris.txt").openStream()));
+        recordReader.initialize(new FileSplit(new ClassPathResource("iris.txt").getFile()));
 
         //Second: the RecordReaderDataSetIterator handles conversion to DataSet objects, ready for use in neural network
         int labelIndex = 4;     //5 values in each row of the iris.txt CSV: 4 input features followed by an integer label (class) index. Labels are the 5th value (index 4) in each row
@@ -53,9 +46,8 @@ public class CSVExample {
         int batchSize = 150;    //Iris data set: 150 examples total. We are loading all of them into one DataSet (not recommended for large data sets)
         DataSetIterator iterator = new RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
 
-        DataSet next = iterator.next();
 
-        //System.out.println("After DataSet next: " + next);
+        DataSet next = iterator.next();
 
         final int numInputs = 4;
         int outputNum = 3;
@@ -63,7 +55,7 @@ public class CSVExample {
         long seed = 6;
 
 
-        //System.out.println("Build model....");
+        log.info("Build model....");
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(seed)
             .iterations(iterations)
@@ -87,7 +79,7 @@ public class CSVExample {
         String[] outputLabelNames = {"I. setosa", "I. versicolor", "I. virginica"};
         MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
-        //model.setListeners(new ScoreIterationListener(100));
+        model.setListeners(new ScoreIterationListener(100));
         model.setListeners(new ModelListener(100, webSocketSession));
 
         //Normalize the full data set. Our DataSet 'next' contains the full 150 examples
@@ -103,39 +95,12 @@ public class CSVExample {
         Evaluation eval = new Evaluation(3);
         DataSet test = testAndTrain.getTest();
         INDArray output = model.output(test.getFeatureMatrix());
-        //System.out.println("output: " + output);
-
-        for (int i = 0; i < output.rows(); i++) {
-            String actual = trainingData.getLabels().getRow(i).toString().trim();
-            String predicted = output.getRow(i).toString().trim();
-            System.out.println("actual " + actual + " vs predicted " + predicted);
-        }
-
         eval.eval(test.getLabels(), output);
-        System.out.println(eval.stats());
-        //displayNetwork(model);
+        log.info(eval.stats());
 
-        // Make prediction
-        // Input: 6.7, 3.0, 5.2, 2.3  Expected output: 2
-        INDArray example = Nd4j.zeros(1, 4);
-        example.putScalar(new int[] { 0, 0 }, 6.7);
-        example.putScalar(new int[] { 0, 1 }, 3.0);
-        example.putScalar(new int[] { 0, 2 }, 5.2);
-        example.putScalar(new int[] { 0, 3 }, 2.3);
-
-        int[] prediction = model.predict(example);
-
-        System.out.println("prediction for 6.7, 3.0, 5.2, 2.3: " + prediction[0]);
 
         return model;
-
     }
 
-    static void displayNetwork(MultiLayerNetwork mln) {
-        System.out.println("multiLayerNetwork:");
-        for (Layer layer : mln.getLayers()) {
-            System.out.println("layer # " + layer.paramTable());
-        }
-    }
 }
 
