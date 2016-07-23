@@ -18,14 +18,18 @@ public class NeuralNetNode {
   @JsonProperty("image")
   private String image;
 
+  @JsonProperty("name")
+  private String name;
+
   public NeuralNetNode() {
     this.bias = "";
   }
 
-  public NeuralNetNode(String id, String bias, String image) {
+  public NeuralNetNode(String id, String bias, String image, String name) {
     this.id = id;
     this.bias = bias;
     this.image = image;
+    this.name = name;
   }
 
   public String getId() {
@@ -52,12 +56,21 @@ public class NeuralNetNode {
     this.image = image;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   @Override
   public String toString() {
     return "NeuralNetNode{" +
         "id='" + id + '\'' +
         ", bias='" + bias + '\'' +
         ", image='" + image + '\'' +
+        ", name='" + name + '\'' +
         '}';
   }
 }

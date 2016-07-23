@@ -34,6 +34,8 @@ public class ModelListener implements IterationListener {
     private NeuralNetGraph neuralNetGraph;
     private int curNodeId = 0;
 
+    private MultiLayerNetworkEnhanced multiLayerNetworkEnhanced;
+
     public ModelListener(int iterations, WebSocketSession webSocketSession) {
         this.iterations = iterations;
         this.webSocketSession = webSocketSession;
@@ -51,6 +53,7 @@ public class ModelListener implements IterationListener {
 
     @Override
     public void iterationDone(Model model, int iteration) {
+        this.multiLayerNetworkEnhanced = (MultiLayerNetworkEnhanced) model;
         if(iterations <= 0)
             iterations = 1;
         if(iterCount % iterations == 0) {
@@ -231,11 +234,11 @@ public class ModelListener implements IterationListener {
                 NeuralNetNode node = new NeuralNetNode();
                 node.setId("" + curNodeId++);
 
-                node.setBias("");
-
-                //TODO: generalize
-                //String[] features = {"attractive", "intelligent", "fun"};
-                //node.setBias(features[i]);
+                String inputFeatureNames[] = multiLayerNetworkEnhanced.getInputFeatureNames();
+                if (inputFeatureNames != null && inputFeatureNames.length > i) {
+                    node.setName(inputFeatureNames[i]);
+                    node.setBias(inputFeatureNames[i]);
+                }
 
                 //node.setImage("http://learnjavafx.typepad.com/mle/input.png");
                 node.setImage("http://bit.ly/29PwoTB");
@@ -262,6 +265,14 @@ public class ModelListener implements IterationListener {
                     node.setId("" + curNodeId++);
                     //node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
                     node.setImage("http://bit.ly/29D7bff");
+
+                    if (layerNum == multiLayerNetworkEnhanced.getLayers().length - 1) {
+                        String outputLabelNames[] = multiLayerNetworkEnhanced.getOutputLabelNames();
+                        if (outputLabelNames != null && outputLabelNames.length > i) {
+                            node.setName(outputLabelNames[i]);
+                        }
+                    }
+
                     curLayer.getNeuralNetNodeList().add(node);
                     neuralNetGraph.getNeuralNetNodeList().add(node);
                 }

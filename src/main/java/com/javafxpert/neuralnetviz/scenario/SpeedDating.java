@@ -1,6 +1,7 @@
 package com.javafxpert.neuralnetviz.scenario;
 
 import com.javafxpert.neuralnetviz.model.ModelListener;
+import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
 import org.canova.api.records.reader.RecordReader;
 import org.canova.api.records.reader.impl.CSVRecordReader;
 import org.canova.api.split.FileSplit;
@@ -72,7 +73,9 @@ public class SpeedDating {
             .pretrain(false).backprop(true).build();
 
 
-        MultiLayerNetwork model = new MultiLayerNetwork(conf);
+        String[] inputFeatureNames = {"Attractive", "Intelligent", "Fun"};
+        String[] outputLabelNames = {"Date again", "No second date"};
+        MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
         model.setListeners(new ModelListener(100, webSocketSession));
