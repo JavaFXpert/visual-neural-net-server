@@ -289,7 +289,7 @@ public class ModelListener implements IterationListener {
                 int numBiases = entry.columns();
                 for (int bIdx = 0; bIdx < numBiases; bIdx++) {
                     NeuralNetNode neuralNetNode = currentLayer.getNeuralNetNodeList().get(bIdx);
-                    neuralNetNode.setBias("" + Math.round(entry.getDouble(bIdx) * 100) / 100d);
+                    neuralNetNode.setBias("b: " + Math.round(entry.getDouble(bIdx) * 100) / 100d);
 
                     // Concatenate the output label to the bias so that it appears on the neural network visualization
                     // Note: The getLayers() method returns an array of layers in which there is no input layer

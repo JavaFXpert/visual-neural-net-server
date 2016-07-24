@@ -166,7 +166,7 @@ public class XorExample {
 		// correct
 		MultiLayerConfiguration conf = listBuilder.build();
 
-		String[] inputFeatureNames = {"input A", "input B"};
+		String[] inputFeatureNames = {"true (1) or false (0)", "true (1) or false (0)"};
 		String[] outputLabelNames = {"false", "true"};
 		MultiLayerNetwork net = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
 		net.init();
