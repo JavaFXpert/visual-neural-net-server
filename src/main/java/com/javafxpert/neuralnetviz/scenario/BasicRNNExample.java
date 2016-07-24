@@ -33,13 +33,13 @@ public class BasicRNNExample {
 
 	// define a sentence to learn
 	//public static final char[] LEARNSTRING = "Der Cottbuser Postkutscher putzt den Cottbuser Postkutschkasten.".toCharArray();
-	public static final char[] LEARNSTRING = "Hey you.".toCharArray();
+	public static final char[] LEARNSTRING = "To do.".toCharArray();
 
 	// a list of all possible characters
 	public static final List<Character> LEARNSTRING_CHARS_LIST = new ArrayList<Character>();
 
 	// RNN dimensions
-	public static final int HIDDEN_LAYER_WIDTH = 6; // was 50
+	public static final int HIDDEN_LAYER_WIDTH = 5; // was 50
 	public static final int HIDDEN_LAYER_CONT = 2;
 	public static final Random r = new Random(7894);
 
@@ -51,6 +51,8 @@ public class BasicRNNExample {
 		for (char c : LEARNSTRING)
 			LEARNSTRING_CHARS.add(c);
 		LEARNSTRING_CHARS_LIST.addAll(LEARNSTRING_CHARS);
+
+		System.out.println("LEARNSTRING_CHARS_LIST: " + LEARNSTRING_CHARS_LIST);
 
 		// some common parameters
 		NeuralNetConfiguration.Builder builder = new NeuralNetConfiguration.Builder();
