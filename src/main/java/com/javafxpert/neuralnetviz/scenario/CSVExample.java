@@ -31,7 +31,7 @@ public class CSVExample {
 
     private static Logger log = LoggerFactory.getLogger(CSVExample.class);
 
-    public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
+    public static MultiLayerNetworkEnhanced buildNetwork(WebSocketSession webSocketSession) throws  Exception {
     //public static void main(String[] args) throws  Exception {
 
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
@@ -77,7 +77,7 @@ public class CSVExample {
         //run the model
         String[] inputFeatureNames = {"Sepal length", "Sepal width", "Petal length", "Petal width"};
         String[] outputLabelNames = {"I. setosa", "I. versicolor", "I. virginica"};
-        MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
+        MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         model.setListeners(new ScoreIterationListener(100));
         model.setListeners(new ModelListener(100, webSocketSession));

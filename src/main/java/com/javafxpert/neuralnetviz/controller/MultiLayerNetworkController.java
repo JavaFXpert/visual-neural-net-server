@@ -1,5 +1,6 @@
 package com.javafxpert.neuralnetviz.controller;
 
+import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
 import com.javafxpert.neuralnetviz.model.multilayernetwork.PredictionResponse;
 import com.javafxpert.neuralnetviz.state.MultiLayerNetworkState;
 import com.javafxpert.neuralnetviz.util.AppUtils;
@@ -62,7 +63,7 @@ public class MultiLayerNetworkController {
    */
   public PredictionResponse predict(INDArray featuresMatrix) {
     PredictionResponse retVal = new PredictionResponse();
-    MultiLayerNetwork network = MultiLayerNetworkState.getNeuralNetworkModel();
+    MultiLayerNetworkEnhanced network = MultiLayerNetworkState.getNeuralNetworkModel();
     INDArray output = network.output(featuresMatrix, false);
 
     List<INDArray> layerActivationsList = network.feedForward(featuresMatrix);
@@ -80,6 +81,8 @@ public class MultiLayerNetworkController {
         prediction[i] = Nd4j.getBlasWrapper().iamax(output.getRow(i));
     }
     retVal.setPrediction(prediction[0]);
+
+    retVal.setNumOutputNodes(network.getOutputLabelNames().length);
     return retVal;
   }
 

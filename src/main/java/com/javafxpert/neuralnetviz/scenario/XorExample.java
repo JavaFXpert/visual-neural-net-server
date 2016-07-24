@@ -35,7 +35,7 @@ import org.springframework.web.socket.WebSocketSession;
  *
  */
 public class XorExample {
-	public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
+	public static MultiLayerNetworkEnhanced buildNetwork(WebSocketSession webSocketSession) throws  Exception {
 	//public static void main(String[] args) throws  Exception {
 
 		//System.out.println("In XorExample.go()");
@@ -168,7 +168,7 @@ public class XorExample {
 
 		String[] inputFeatureNames = {"true (1) or false (0)", "true (1) or false (0)"};
 		String[] outputLabelNames = {"false", "true"};
-		MultiLayerNetwork net = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
+		MultiLayerNetworkEnhanced net = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
 		net.init();
 
 		// add an listener which outputs the error every 100 parameter updates

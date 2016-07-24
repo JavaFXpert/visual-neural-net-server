@@ -18,12 +18,16 @@ public class PredictionResponse {
   @JsonProperty("activations")
   private List<Double> activations = new ArrayList<>();
 
+  @JsonProperty("numOutputNodes")
+  private int numOutputNodes;
+
   public PredictionResponse() {
   }
 
-  public PredictionResponse(int prediction, List<Double> activations) {
+  public PredictionResponse(int prediction, List<Double> activations, int numOutputNodes) {
     this.prediction = prediction;
     this.activations = activations;
+    this.numOutputNodes = numOutputNodes;
   }
 
   public int getPrediction() {
@@ -42,11 +46,20 @@ public class PredictionResponse {
     this.activations = activations;
   }
 
+  public int getNumOutputNodes() {
+    return numOutputNodes;
+  }
+
+  public void setNumOutputNodes(int numOutputNodes) {
+    this.numOutputNodes = numOutputNodes;
+  }
+
   @Override
   public String toString() {
     return "PredictionResponse{" +
         "prediction=" + prediction +
         ", activations=" + activations +
+        ", numOutputNodes=" + numOutputNodes +
         '}';
   }
 }

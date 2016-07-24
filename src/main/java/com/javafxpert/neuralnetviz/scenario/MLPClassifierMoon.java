@@ -37,7 +37,7 @@ import java.io.File;
  */
 public class MLPClassifierMoon {
 
-    public static MultiLayerNetwork buildNetwork(WebSocketSession webSocketSession) throws  Exception {
+    public static MultiLayerNetworkEnhanced buildNetwork(WebSocketSession webSocketSession) throws  Exception {
         int seed = 123;
         double learningRate = 0.005;
         int batchSize = 50;
@@ -78,7 +78,7 @@ public class MLPClassifierMoon {
 
         String[] inputFeatureNames = {};
         String[] outputLabelNames = {};
-        MultiLayerNetwork model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
+        MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
         model.setListeners(new ModelListener(100, webSocketSession));
