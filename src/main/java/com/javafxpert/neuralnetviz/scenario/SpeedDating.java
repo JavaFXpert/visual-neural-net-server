@@ -78,13 +78,11 @@ public class SpeedDating {
             .learningRate(0.1)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(5)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(4)
                 .build())
-            //.layer(1, new DenseLayer.Builder().nIn(3).nOut(3)
-            //    .build())
             .layer(1, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(5).nOut(outputNum).build())
+                .nIn(4).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 

@@ -15,6 +15,7 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.params.DefaultParamInitializer;
 import org.deeplearning4j.nn.weights.WeightInit;
 //import org.deeplearning4j.ui.weights.HistogramIterationListener;
+import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
@@ -126,7 +127,7 @@ public class XorExample {
 		hiddenLayerBuilder.nIn(2);
 		// number of outgooing connections, nOut simultaneously defines the
 		// number of neurons in this layer
-		hiddenLayerBuilder.nOut(4);
+		hiddenLayerBuilder.nOut(2);
 		// put the output through the sigmoid function, to cap the output
 		// valuebetween 0 and 1
 		hiddenLayerBuilder.activation("sigmoid");
@@ -144,7 +145,7 @@ public class XorExample {
 		// classification, use multiclass cross entropy.
 		Builder outputLayerBuilder = new Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD);
 		// must be the same amout as neurons in the layer before
-		outputLayerBuilder.nIn(4);
+		outputLayerBuilder.nIn(2);
 		// two neurons in this layer
 		outputLayerBuilder.nOut(2);
 		outputLayerBuilder.activation("sigmoid");
@@ -173,7 +174,7 @@ public class XorExample {
 
 		// add an listener which outputs the error every 100 parameter updates
 		//net.setListeners(new ScoreIterationListener(100));
-		net.setListeners(new ModelListener(100, webSocketSession));
+		net.setListeners(new ModelListener(100, webSocketSession), new ScoreIterationListener(100));
 
 		// C&P from GravesLSTMCharModellingExample
 		// Print the number of parameters in the network (and for each layer)

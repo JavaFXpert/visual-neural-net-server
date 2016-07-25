@@ -21,10 +21,14 @@ public class PredictionResponse {
   @JsonProperty("numOutputNodes")
   private int numOutputNodes;
 
+  @JsonProperty("inputsNormalized")
+  private boolean inputsNormalized;
+
   public PredictionResponse() {
   }
 
-  public PredictionResponse(int prediction, List<Double> activations, int numOutputNodes) {
+  public PredictionResponse(boolean inputsNormalized, int prediction, List<Double> activations, int numOutputNodes) {
+    this.inputsNormalized = inputsNormalized;
     this.prediction = prediction;
     this.activations = activations;
     this.numOutputNodes = numOutputNodes;
@@ -54,12 +58,21 @@ public class PredictionResponse {
     this.numOutputNodes = numOutputNodes;
   }
 
+  public boolean isInputsNormalized() {
+    return inputsNormalized;
+  }
+
+  public void setInputsNormalized(boolean inputsNormalized) {
+    this.inputsNormalized = inputsNormalized;
+  }
+
   @Override
   public String toString() {
     return "PredictionResponse{" +
         "prediction=" + prediction +
         ", activations=" + activations +
         ", numOutputNodes=" + numOutputNodes +
+        ", inputsNormalized=" + inputsNormalized +
         '}';
   }
 }

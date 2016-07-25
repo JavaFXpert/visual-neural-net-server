@@ -69,11 +69,13 @@ public class MultiLayerNetworkController {
     MultiLayerNetworkEnhanced network = MultiLayerNetworkState.getNeuralNetworkModel();
 
     // Normalize the featureMatrix input if example data was normalized
-    if (network.getDataNormalization() != null) {
+    boolean exampleDataNormalized = network.getDataNormalization() != null;
+    if (exampleDataNormalized) {
       DataNormalization normalizer = network.getDataNormalization();
       DataSet ds = new DataSet(featuresMatrix, null);
       normalizer.transform(ds);
     }
+    retVal.setInputsNormalized(exampleDataNormalized);
 
     INDArray output = network.output(featuresMatrix, false);
 
