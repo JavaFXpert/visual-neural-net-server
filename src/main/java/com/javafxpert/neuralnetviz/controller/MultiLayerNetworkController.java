@@ -7,6 +7,9 @@ import com.javafxpert.neuralnetviz.util.AppUtils;
 import org.deeplearning4j.nn.api.Layer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
+import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize;
 import org.nd4j.linalg.factory.Nd4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +27,7 @@ public class MultiLayerNetworkController {
   // The values parameter takes a comma separated list of numbers representing feature values
   @CrossOrigin(origins = "http://localhost:4200")
   @RequestMapping(value = "/prediction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> renderClaims(@RequestParam(value = "values")
+  public ResponseEntity<Object> renderPrediction(@RequestParam(value = "values")
                                              String values) {
 
     PredictionResponse predictionResponse = null;
@@ -64,6 +67,12 @@ public class MultiLayerNetworkController {
   public PredictionResponse predict(INDArray featuresMatrix) {
     PredictionResponse retVal = new PredictionResponse();
     MultiLayerNetworkEnhanced network = MultiLayerNetworkState.getNeuralNetworkModel();
+
+    // Normalize the featureMatrix input
+    DataNormalization normalizer = network.getDataNormalization();
+    DataSet ds = new DataSet(featuresMatrix, null);
+    normalizer.transform(ds);
+
     INDArray output = network.output(featuresMatrix, false);
 
     List<INDArray> layerActivationsList = network.feedForward(featuresMatrix);

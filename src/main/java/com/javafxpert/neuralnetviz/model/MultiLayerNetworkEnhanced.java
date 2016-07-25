@@ -2,6 +2,8 @@ package com.javafxpert.neuralnetviz.model;
 
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
+import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize;
 
 import java.util.Arrays;
 
@@ -11,6 +13,7 @@ import java.util.Arrays;
 public class MultiLayerNetworkEnhanced extends MultiLayerNetwork {
   private String[] inputFeatureNames = {};
   private String[] outputLabelNames = {};
+  private DataNormalization dataNormalization = new NormalizerStandardize();
 
   public MultiLayerNetworkEnhanced(MultiLayerConfiguration multiLayerConfiguration,
                                    String[] inputFeatureNames,
@@ -40,11 +43,11 @@ public class MultiLayerNetworkEnhanced extends MultiLayerNetwork {
     this.outputLabelNames = outputLabelNames;
   }
 
-  @Override
-  public String toString() {
-    return "MultiLayerNetworkEnhanced{" +
-        "inputFeatureNames=" + Arrays.toString(inputFeatureNames) +
-        ", outputLabelNames=" + Arrays.toString(outputLabelNames) +
-        '}';
+  public DataNormalization getDataNormalization() {
+    return dataNormalization;
+  }
+
+  public void setDataNormalization(DataNormalization dataNormalization) {
+    this.dataNormalization = dataNormalization;
   }
 }
