@@ -91,8 +91,8 @@ public class CSVExample {
 
 
         //run the model
-        String[] inputFeatureNames = {"Sepal length", "Sepal width", "Petal length", "Petal width"};
-        String[] outputLabelNames = {"I. setosa", "I. versicolor", "I. virginica"};
+        String[] inputFeatureNames = {"Sepal length (4.3-7.9)", "Sepal width (2.0-4.4)", "Petal length (1.0-6.9)", "Petal width (0.1-2.5)"};
+        String[] outputLabelNames = {"Iris setosa", "Iris versicolor", "Iris virginica"};
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.setDataNormalization(normalizer);
 

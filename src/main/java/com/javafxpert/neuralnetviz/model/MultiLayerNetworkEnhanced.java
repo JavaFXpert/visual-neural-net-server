@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class MultiLayerNetworkEnhanced extends MultiLayerNetwork {
   private String[] inputFeatureNames = {};
   private String[] outputLabelNames = {};
-  private DataNormalization dataNormalization = new NormalizerStandardize();
+  private DataNormalization dataNormalization;
 
   public MultiLayerNetworkEnhanced(MultiLayerConfiguration multiLayerConfiguration,
                                    String[] inputFeatureNames,
