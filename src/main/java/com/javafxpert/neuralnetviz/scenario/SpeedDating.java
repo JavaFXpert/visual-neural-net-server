@@ -91,7 +91,7 @@ public class SpeedDating {
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
-        model.setListeners(new ModelListener(10, webSocketSession), new ScoreIterationListener(10));
+        model.setListeners(new ModelListener(10, webSocketSession));
         model.setDataNormalization(normalizer);
 
         model.fit( trainingData );

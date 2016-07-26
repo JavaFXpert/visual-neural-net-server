@@ -174,7 +174,7 @@ public class XorExample {
 
 		// add an listener which outputs the error every 100 parameter updates
 		//net.setListeners(new ScoreIterationListener(100));
-		net.setListeners(new ModelListener(100, webSocketSession), new ScoreIterationListener(100));
+		net.setListeners(new ModelListener(100, webSocketSession));
 
 		// C&P from GravesLSTMCharModellingExample
 		// Print the number of parameters in the network (and for each layer)

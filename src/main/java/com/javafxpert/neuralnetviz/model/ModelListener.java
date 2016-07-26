@@ -59,7 +59,7 @@ public class ModelListener implements IterationListener {
         if(iterCount % iterations == 0) {
             invoke();
             if(iteration % iterations == 0) {
-                System.out.println("In iterationDone(), iteration: " + iteration + ", iterations: " + iterations);
+                System.out.println("In iterationDone(), iteration: " + iteration + ", iterations: " + iterations  + ", iterCount: " + iterCount  + ", score: " + model.score());
                 Map<String, Map> newGrad = new LinkedHashMap<>();
                 try {
                     Map<String, INDArray> grad = model.gradient().gradientForVariable();
