@@ -18,6 +18,9 @@ public class NeuralNetNode {
   @JsonProperty("image")
   private String image;
 
+  @JsonProperty("actFunc")
+  private String activationFunction;
+
   @JsonProperty("name")
   private String name;
 
@@ -25,10 +28,11 @@ public class NeuralNetNode {
     this.bias = "";
   }
 
-  public NeuralNetNode(String id, String bias, String image, String name) {
+  public NeuralNetNode(String id, String bias, String image, String activationFunction, String name) {
     this.id = id;
     this.bias = bias;
     this.image = image;
+    this.activationFunction = activationFunction;
     this.name = name;
   }
 
@@ -56,6 +60,14 @@ public class NeuralNetNode {
     this.image = image;
   }
 
+  public String getActivationFunction() {
+    return activationFunction;
+  }
+
+  public void setActivationFunction(String activationFunction) {
+    this.activationFunction = activationFunction;
+  }
+
   public String getName() {
     return name;
   }
@@ -70,6 +82,7 @@ public class NeuralNetNode {
         "id='" + id + '\'' +
         ", bias='" + bias + '\'' +
         ", image='" + image + '\'' +
+        ", activationFunction='" + activationFunction + '\'' +
         ", name='" + name + '\'' +
         '}';
   }

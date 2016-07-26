@@ -258,13 +258,25 @@ public class ModelListener implements IterationListener {
                         (neuralNetGraph.getNeuralNetLayerList().size() - 1));
                 }
 
+                // Retrieve the activation function from the model for the current layer
+                String activationFunction = multiLayerNetworkEnhanced.getLayer(layerNum - 1).conf().getLayer().getActivationFunction();
+
                 // Create/add nodes to the layer and graph for each column in the weights array
                 int numCurLayerNodes = entry.columns();
                 for (int i = 0; i < numCurLayerNodes; i++) {
                     NeuralNetNode node = new NeuralNetNode();
                     node.setId("" + curNodeId++);
-                    //node.setImage("http://learnjavafx.typepad.com/mle/sigmoid.png");
-                    node.setImage("http://bit.ly/29D7bff");
+                    node.setActivationFunction(activationFunction);
+
+                    //String activationImageUrl = "http://bit.ly/29D7bff"; // Generic activation image http://learnjavafx.typepad.com/mle/sigmoid.png
+                    String activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncGeneric.png";
+                    if (activationFunction.equalsIgnoreCase("tanh")) {
+                        activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncTanh.png";
+                    }
+                    else if (activationFunction.equalsIgnoreCase("softmax")) {
+                        activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncSoftmax.png";
+                    }
+                    node.setImage(activationImageUrl);
 
                     curLayer.getNeuralNetNodeList().add(node);
                     neuralNetGraph.getNeuralNetNodeList().add(node);
