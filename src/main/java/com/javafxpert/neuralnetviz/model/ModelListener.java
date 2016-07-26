@@ -276,6 +276,15 @@ public class ModelListener implements IterationListener {
                     else if (activationFunction.equalsIgnoreCase("softmax")) {
                         activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncSoftmax.png";
                     }
+                    else if (activationFunction.equalsIgnoreCase("relu")) {
+                        activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncRelu.png";
+                    }
+                    else if (activationFunction.equalsIgnoreCase("identity")) {
+                        activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncIdentity.png";
+                    }
+                    else if (activationFunction.equalsIgnoreCase("sigmoid")) {
+                        activationImageUrl = "http://learnjavafx.typepad.com/mle/actFuncSigmoid.png";
+                    }
                     node.setImage(activationImageUrl);
 
                     curLayer.getNeuralNetNodeList().add(node);
