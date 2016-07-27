@@ -11,7 +11,7 @@
         <nd4j.backend>nd4j-native</nd4j.backend>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shadedClassifier>bin</shadedClassifier>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <nd4j.version>0.4.0</nd4j.version>
         <dl4j.version>0.4.0</dl4j.version>
         <canova.version>0.0.0.17</canova.version>
