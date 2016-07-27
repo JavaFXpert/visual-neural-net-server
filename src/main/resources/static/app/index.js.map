@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["index.ts"],"names":[],"mappings":";AAAA,4BAA0B,eAAe,CAAC;AAAlC,gDAAkC;AAC1C,kDAAgD,qCAAqC,CAAC;AAA9E,kHAA8E","sourcesContent":["export {environment} from './environment';\nexport {AngularWebsocketsDemoAppComponent} from './angular-websockets-demo.component';\n"]}

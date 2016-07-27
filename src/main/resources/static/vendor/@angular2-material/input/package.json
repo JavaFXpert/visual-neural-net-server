@@ -1,0 +1,90 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/input",
+        "raw": "@angular2-material/input",
+        "rawSpec": "",
+        "scope": "@angular2-material",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/jamesweaver/testing-angular2/ml-websocket-client"
+    ]
+  ],
+  "_from": "@angular2-material/input@latest",
+  "_id": "@angular2-material/input@2.0.0-alpha.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/input",
+  "_nodeVersion": "4.1.2",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/input-2.0.0-alpha.6.tgz_1467300947307_0.2826817072927952"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.8.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/input",
+    "raw": "@angular2-material/input",
+    "rawSpec": "",
+    "scope": "@angular2-material",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/input/-/input-2.0.0-alpha.6.tgz",
+  "_shasum": "fc656e0424822e9ce470c63a053c8abd912f0306",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/input",
+  "_where": "/Users/jamesweaver/testing-angular2/ml-websocket-client",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material input",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "fc656e0424822e9ce470c63a053c8abd912f0306",
+    "tarball": "https://registry.npmjs.org/@angular2-material/input/-/input-2.0.0-alpha.6.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components",
+    "input",
+    "text",
+    "textarea"
+  ],
+  "license": "MIT",
+  "main": "./input.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/input",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular/forms": "^0.1.0",
+    "@angular2-material/core": "2.0.0-alpha.6"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./input.d.ts",
+  "version": "2.0.0-alpha.6"
+}

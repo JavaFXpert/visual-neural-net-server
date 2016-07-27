@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/button",
+        "raw": "@angular2-material/button",
+        "rawSpec": "",
+        "scope": "@angular2-material",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/jamesweaver/testing-angular2/ml-websocket-client"
+    ]
+  ],
+  "_from": "@angular2-material/button@latest",
+  "_id": "@angular2-material/button@2.0.0-alpha.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/button",
+  "_nodeVersion": "4.1.2",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/button-2.0.0-alpha.6.tgz_1467300927810_0.9443565418478101"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.8.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/button",
+    "raw": "@angular2-material/button",
+    "rawSpec": "",
+    "scope": "@angular2-material",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/button/-/button-2.0.0-alpha.6.tgz",
+  "_shasum": "33972d048b3d83de0777924e778d914aee143e65",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/button",
+  "_where": "/Users/jamesweaver/testing-angular2/ml-websocket-client",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material button",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "33972d048b3d83de0777924e778d914aee143e65",
+    "tarball": "https://registry.npmjs.org/@angular2-material/button/-/button-2.0.0-alpha.6.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components",
+    "button",
+    "anchor",
+    "linkbutton"
+  ],
+  "license": "MIT",
+  "main": "./button.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/button",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular2-material/core": "2.0.0-alpha.6"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./button.d.ts",
+  "version": "2.0.0-alpha.6"
+}

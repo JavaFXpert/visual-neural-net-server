@@ -1,0 +1,159 @@
+/**
+ * Mixin that creates a new stacking context.
+ * see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+ */
+/**
+ * This mixin hides an element visually.
+ * That means it's still accessible for screen-readers but not visible in view.
+ */
+/**
+ * Forces an element to grow to fit floated contents; used as as an alternative to
+ * `overflow: hidden;` because it doesn't cut off contents.
+ */
+/**
+ * A mixin, which generates temporary ink ripple on a given component.
+ * When $bindToParent is set to true, it will check for the focused class on the same selector as you included
+ * that mixin.
+ * It is also possible to specify the color palette of the temporary ripple. By default it uses the
+ * accent palette for its background.
+ */
+/**
+ * Undo the red box-shadow glow added by Firefox on invalid inputs.
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/:-moz-ui-invalid
+ */
+:-moz-ui-invalid {
+  box-shadow: none; }
+
+/**
+ * Applies a floating placeholder above the input itself.
+ */
+:host {
+  display: inline-block;
+  position: relative;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow: hidden;
+  text-align: left; }
+  :host .md-input-wrapper {
+    margin: 16px 0; }
+  :host .md-input-table {
+    display: inline-table;
+    -ms-flex-flow: column;
+        flex-flow: column;
+    vertical-align: bottom;
+    width: 100%; }
+    :host .md-input-table > * {
+      display: table-cell; }
+  :host .md-input-element {
+    font: inherit;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    width: 100%; }
+    :host .md-input-element.md-end {
+      text-align: right; }
+  :host .md-input-infix {
+    position: relative; }
+  :host .md-input-placeholder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 100%;
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.38);
+    z-index: 1;
+    width: 100%;
+    display: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-transform-origin: bottom left;
+            transform-origin: bottom left;
+    -webkit-transition: scale 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: scale 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), scale 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), scale 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1); }
+    :host .md-input-placeholder.md-empty {
+      display: block;
+      cursor: text; }
+    :host .md-input-placeholder.md-float:not(.md-empty), :host .md-input-placeholder.md-float.md-focused {
+      display: block;
+      padding-bottom: 5px;
+      -webkit-transform: translateY(-100%) scale(0.75);
+              transform: translateY(-100%) scale(0.75);
+      width: 133.33333%; }
+      :host .md-input-placeholder.md-float:not(.md-empty) .md-placeholder-required, :host .md-input-placeholder.md-float.md-focused .md-placeholder-required {
+        color: #9c27b0; }
+    :host .md-input-placeholder.md-focused {
+      color: #009688; }
+      :host .md-input-placeholder.md-focused.md-accent {
+        color: #9c27b0; }
+      :host .md-input-placeholder.md-focused.md-warn {
+        color: #f44336; }
+  :host input:-webkit-autofill + .md-input-placeholder {
+    display: block;
+    padding-bottom: 5px;
+    -webkit-transform: translateY(-100%) scale(0.75);
+            transform: translateY(-100%) scale(0.75);
+    width: 133.33333%; }
+    :host input:-webkit-autofill + .md-input-placeholder .md-placeholder-required {
+      color: #9c27b0; }
+  :host .md-input-underline {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    margin-top: 4px;
+    border-top: 1px solid rgba(0, 0, 0, 0.38); }
+    :host .md-input-underline.md-disabled {
+      border-top: 0;
+      background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 33%, transparent 0%);
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 33%, transparent 0%);
+      background-position: 0;
+      background-size: 4px 1px;
+      background-repeat: repeat-x; }
+    :host .md-input-underline .md-input-ripple {
+      position: absolute;
+      height: 2px;
+      z-index: 1;
+      background-color: #009688;
+      top: -1px;
+      width: 100%;
+      -webkit-transform-origin: top;
+              transform-origin: top;
+      opacity: 0;
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+      -webkit-transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1), -webkit-transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1); }
+      :host .md-input-underline .md-input-ripple.md-accent {
+        background-color: #9c27b0; }
+      :host .md-input-underline .md-input-ripple.md-warn {
+        background-color: #f44336; }
+      :host .md-input-underline .md-input-ripple.md-focused {
+        opacity: 1;
+        -webkit-transform: scaleY(1);
+                transform: scaleY(1); }
+  :host .md-hint {
+    position: absolute;
+    font-size: 75%;
+    bottom: -0.5em; }
+    :host .md-hint.md-right {
+      right: 0; }
+
+:host-context([dir='rtl']) {
+  text-align: right; }
+  :host-context([dir='rtl']) .md-input-placeholder {
+    -webkit-transform-origin: bottom right;
+            transform-origin: bottom right; }
+  :host-context([dir='rtl']) .md-input-element.md-end {
+    text-align: left; }
+  :host-context([dir='rtl']) .md-hint {
+    right: 0;
+    left: auto; }
+    :host-context([dir='rtl']) .md-hint.md-right {
+      right: auto;
+      left: 0; }

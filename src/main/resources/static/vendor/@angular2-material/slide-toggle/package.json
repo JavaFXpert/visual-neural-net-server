@@ -1,0 +1,90 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/slide-toggle",
+        "raw": "@angular2-material/slide-toggle",
+        "rawSpec": "",
+        "scope": "@angular2-material",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/jamesweaver/testing-angular2/ml-websocket-client"
+    ]
+  ],
+  "_from": "@angular2-material/slide-toggle@latest",
+  "_id": "@angular2-material/slide-toggle@2.0.0-alpha.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/slide-toggle",
+  "_nodeVersion": "4.1.2",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/slide-toggle-2.0.0-alpha.6.tgz_1467300968404_0.7355062097776681"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.8.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/slide-toggle",
+    "raw": "@angular2-material/slide-toggle",
+    "rawSpec": "",
+    "scope": "@angular2-material",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/slide-toggle/-/slide-toggle-2.0.0-alpha.6.tgz",
+  "_shasum": "fc0d2aa9ecdfaf9b3539cd06b3e82488e1249a28",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/slide-toggle",
+  "_where": "/Users/jamesweaver/testing-angular2/ml-websocket-client",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material Slide Toggle",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "fc0d2aa9ecdfaf9b3539cd06b3e82488e1249a28",
+    "tarball": "https://registry.npmjs.org/@angular2-material/slide-toggle/-/slide-toggle-2.0.0-alpha.6.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components",
+    "slide-toggle",
+    "switch",
+    "toggle"
+  ],
+  "license": "MIT",
+  "main": "./slide-toggle.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/slide-toggle",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular/forms": "^0.1.0",
+    "@angular2-material/core": "2.0.0-alpha.6"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./slide-toggle.d.ts",
+  "version": "2.0.0-alpha.6"
+}

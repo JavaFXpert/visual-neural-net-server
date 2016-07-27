@@ -1,0 +1,87 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/core",
+        "raw": "@angular2-material/core",
+        "rawSpec": "",
+        "scope": "@angular2-material",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/jamesweaver/testing-angular2/ml-websocket-client"
+    ]
+  ],
+  "_from": "@angular2-material/core@latest",
+  "_id": "@angular2-material/core@2.0.0-alpha.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/core",
+  "_nodeVersion": "4.1.2",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/core-2.0.0-alpha.6.tgz_1467300939016_0.8273107195273042"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.8.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/core",
+    "raw": "@angular2-material/core",
+    "rawSpec": "",
+    "scope": "@angular2-material",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/core/-/core-2.0.0-alpha.6.tgz",
+  "_shasum": "ffa26578e8bcfd29c7c74ee6032b89b89fac6d08",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/core",
+  "_where": "/Users/jamesweaver/testing-angular2/ml-websocket-client",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material core",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "ffa26578e8bcfd29c7c74ee6032b89b89fac6d08",
+    "tarball": "https://registry.npmjs.org/@angular2-material/core/-/core-2.0.0-alpha.6.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components"
+  ],
+  "license": "MIT",
+  "main": "./core.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/core",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular/common": "^2.0.0-rc.3",
+    "@angular/core": "^2.0.0-rc.3"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./core.d.ts",
+  "version": "2.0.0-alpha.6"
+}

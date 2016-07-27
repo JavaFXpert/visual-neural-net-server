@@ -1,0 +1,88 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/toolbar",
+        "raw": "@angular2-material/toolbar",
+        "rawSpec": "",
+        "scope": "@angular2-material",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/jamesweaver/testing-angular2/ml-websocket-client"
+    ]
+  ],
+  "_from": "@angular2-material/toolbar@latest",
+  "_id": "@angular2-material/toolbar@2.0.0-alpha.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/toolbar",
+  "_nodeVersion": "4.1.2",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/toolbar-2.0.0-alpha.6.tgz_1467300971850_0.6646599099040031"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.8.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/toolbar",
+    "raw": "@angular2-material/toolbar",
+    "rawSpec": "",
+    "scope": "@angular2-material",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/toolbar/-/toolbar-2.0.0-alpha.6.tgz",
+  "_shasum": "8b0305d5fd19f508866d1a83457f2b3bae65633a",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/toolbar",
+  "_where": "/Users/jamesweaver/testing-angular2/ml-websocket-client",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material toolbar",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "8b0305d5fd19f508866d1a83457f2b3bae65633a",
+    "tarball": "https://registry.npmjs.org/@angular2-material/toolbar/-/toolbar-2.0.0-alpha.6.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components",
+    "toolbar",
+    "header"
+  ],
+  "license": "MIT",
+  "main": "./toolbar.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/toolbar",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular2-material/core": "2.0.0-alpha.6"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./toolbar.d.ts",
+  "version": "2.0.0-alpha.6"
+}

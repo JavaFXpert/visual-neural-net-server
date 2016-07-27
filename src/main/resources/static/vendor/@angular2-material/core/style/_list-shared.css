@@ -1,0 +1,11 @@
+/**
+ * This mixin provides all md-line styles, changing secondary font size
+ * based on whether the list is in dense mode.
+ */
+/**
+ * This mixin provides base styles for the wrapper around md-line
+ * elements in a list.
+ */
+/**
+ * This mixin normalizes default element styles, e.g. font weight for heading text.
+ */
