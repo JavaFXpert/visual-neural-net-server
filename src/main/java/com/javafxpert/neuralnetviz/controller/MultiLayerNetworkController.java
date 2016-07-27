@@ -40,7 +40,7 @@ import java.util.Optional;
 @RestController
 public class MultiLayerNetworkController {
   // The values parameter takes a comma separated list of numbers representing feature values
-  @CrossOrigin(origins = "http://localhost:4200")
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "/prediction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> renderPrediction(@RequestParam(value = "values")
                                              String values) {
