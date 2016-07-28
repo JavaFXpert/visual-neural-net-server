@@ -64,12 +64,12 @@ public class MLPClassifierMoon {
 
         //Load the training data:
         RecordReader rr = new CSVRecordReader();
-        rr.initialize(new FileSplit(new File("src/main/resources/classification/moon_data_train.csv")));
+        rr.initialize(new FileSplit(new File("src/main/resources/classification/saturn_data_train.csv")));
         DataSetIterator trainIter = new RecordReaderDataSetIterator(rr,batchSize,0,2);
 
         //Load the test/evaluation data:
         RecordReader rrTest = new CSVRecordReader();
-        rrTest.initialize(new FileSplit(new File("src/main/resources/classification/moon_data_eval.csv")));
+        rrTest.initialize(new FileSplit(new File("src/main/resources/classification/saturn_data_eval.csv")));
         DataSetIterator testIter = new RecordReaderDataSetIterator(rrTest,batchSize,0,2);
 
         //log.info("Build model....");
@@ -91,8 +91,8 @@ public class MLPClassifierMoon {
                 .pretrain(false).backprop(true).build();
 
 
-        String[] inputFeatureNames = {};
-        String[] outputLabelNames = {};
+        String[] inputFeatureNames = {"x (-1.52 .. 2.54)", "y (-1.06 .. 1.58)"};
+        String[] outputLabelNames = {"planet", "ring"};
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
@@ -116,60 +116,13 @@ public class MLPClassifierMoon {
         //Print the evaluation statistics
         System.out.println(eval.stats());
 
-
-        //------------------------------------------------------------------------------------
-        //Training is complete. Code that follows is for plotting the data & predictions only
-
-        //Plot the data
-        double xMin = -1.5;
-        double xMax = 2.5;
-        double yMin = -1;
-        double yMax = 1.5;
-
-        //Let's evaluate the predictions at every point in the x/y input space, and plot this in the background
-        int nPointsPerAxis = 100;
-        double[][] evalPoints = new double[nPointsPerAxis*nPointsPerAxis][2];
-        int count = 0;
-        for( int i=0; i<nPointsPerAxis; i++ ){
-            for( int j=0; j<nPointsPerAxis; j++ ){
-                double x = i * (xMax-xMin)/(nPointsPerAxis-1) + xMin;
-                double y = j * (yMax-yMin)/(nPointsPerAxis-1) + yMin;
-
-                evalPoints[count][0] = x;
-                evalPoints[count][1] = y;
-
-                count++;
-            }
-        }
-
-        INDArray allXYPoints = Nd4j.create(evalPoints);
-        INDArray predictionsAtXYPoints = model.output(allXYPoints);
-
-        //Get all of the training data in a single array, and plot it:
-        rr.initialize(new FileSplit(new File("src/main/resources/classification/moon_data_train.csv")));
-        rr.reset();
-        int nTrainPoints = 2000;
-        trainIter = new RecordReaderDataSetIterator(rr,nTrainPoints,0,2);
-        DataSet ds = trainIter.next();
-        //PlotUtil.plotTrainingData(ds.getFeatures(), ds.getLabels(), allXYPoints, predictionsAtXYPoints, nPointsPerAxis);
-
-
-        //Get test data, run the test data through the network to generate predictions, and plot those predictions:
-        rrTest.initialize(new FileSplit(new File("src/main/resources/classification/moon_data_eval.csv")));
-        rrTest.reset();
-        int nTestPoints = 1000;
-        testIter = new RecordReaderDataSetIterator(rrTest,nTestPoints,0,2);
-        ds = testIter.next();
-        INDArray testPredicted = model.output(ds.getFeatures());
-        //PlotUtil.plotTestData(ds.getFeatures(), ds.getLabels(), testPredicted, allXYPoints, predictionsAtXYPoints, nPointsPerAxis);
-
         // Make prediction
         // Input: 0.6236,-0.7822  Expected output: 1
         INDArray example = Nd4j.zeros(1, 2);
-        example.putScalar(new int[] { 0, 0 }, 0.6236);
-        example.putScalar(new int[] { 0, 1 }, -0.7822);
+        example.putScalar(new int[] { 0, 0 }, 9.8520);
+        example.putScalar(new int[] { 0, 1 }, -1.9809);
         int[] prediction = model.predict(example);
-        System.out.println("prediction for 0.6236, -0.7822: " + prediction[0]);
+        System.out.println("prediction for 9.8520, -1.9809: " + prediction[0]);
 
         System.out.println("****************Example finished********************");
 
