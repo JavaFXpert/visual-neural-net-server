@@ -133,16 +133,16 @@ public class PebbleGestures {
         // Make prediction
         // Input: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5  Expected output: 0
         INDArray example = Nd4j.zeros(1, 1, 10);
-        example.putScalar(new int[] { 0, 0, 0 }, 5);
-        example.putScalar(new int[] { 0, 0, 1 }, 5);
-        example.putScalar(new int[] { 0, 0, 2 }, 5);
-        example.putScalar(new int[] { 0, 0, 3 }, 5);
+        example.putScalar(new int[] { 0, 0, 0 }, 1);
+        example.putScalar(new int[] { 0, 0, 1 }, 2);
+        example.putScalar(new int[] { 0, 0, 2 }, 3);
+        example.putScalar(new int[] { 0, 0, 3 }, 4);
         example.putScalar(new int[] { 0, 0, 4 }, 5);
-        example.putScalar(new int[] { 0, 0, 5 }, 5);
-        example.putScalar(new int[] { 0, 0, 6 }, 5);
-        example.putScalar(new int[] { 0, 0, 7 }, 5);
-        example.putScalar(new int[] { 0, 0, 8 }, 5);
-        example.putScalar(new int[] { 0, 0, 9 }, 5);
+        example.putScalar(new int[] { 0, 0, 5 }, 6);
+        example.putScalar(new int[] { 0, 0, 6 }, 7);
+        example.putScalar(new int[] { 0, 0, 7 }, 8);
+        example.putScalar(new int[] { 0, 0, 8 }, 9);
+        example.putScalar(new int[] { 0, 0, 9 }, 10);
         DataSet ds = new DataSet(example, null);
         normalizer.transform(ds);
         //List<INDArray> outputActivations = model.feedForward(example);
