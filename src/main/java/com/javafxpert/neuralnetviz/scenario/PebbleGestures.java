@@ -166,7 +166,7 @@ public class PebbleGestures {
         DataSet ds = new DataSet(example, null);
         normalizer.transform(ds);
         model.rnnClearPreviousState();
-        INDArray outputActivations = model.rnnTimeStep(example);
+        INDArray outputActivations = model.output(example);
         System.out.println("outputActivations expected 0: " + outputActivations);
 
         // Make prediction
@@ -205,7 +205,7 @@ public class PebbleGestures {
         ds = new DataSet(example, null);
         normalizer.transform(ds);
         model.rnnClearPreviousState();
-        outputActivations = model.rnnTimeStep(example);
+        outputActivations = model.output(example);
         System.out.println("outputActivations expected 1: " + outputActivations);
 
         // Make prediction
@@ -244,8 +244,49 @@ public class PebbleGestures {
         ds = new DataSet(example, null);
         normalizer.transform(ds);
         model.rnnClearPreviousState();
-        outputActivations = model.rnnTimeStep(example);
+        outputActivations = model.output(example);
         System.out.println("outputActivations expected 2: " + outputActivations);
+
+        // Make prediction
+        // Expected output: 2
+        example = Nd4j.zeros(1, 3, 10);
+
+        example.putScalar(new int[] { 0, 0, 0 }, 1923);
+        example.putScalar(new int[] { 0, 1, 0 }, 2335);
+        example.putScalar(new int[] { 0, 2, 0 }, 1953);
+        example.putScalar(new int[] { 0, 0, 1 }, 1945);
+        example.putScalar(new int[] { 0, 1, 1 }, 2382);
+        example.putScalar(new int[] { 0, 2, 1 }, 1939);
+        example.putScalar(new int[] { 0, 0, 2 }, 1955);
+        example.putScalar(new int[] { 0, 1, 2 }, 2397);
+        example.putScalar(new int[] { 0, 2, 2 }, 1953);
+        example.putScalar(new int[] { 0, 0, 3 }, 1929);
+        example.putScalar(new int[] { 0, 1, 3 }, 2386);
+        example.putScalar(new int[] { 0, 2, 3 }, 1919);
+        example.putScalar(new int[] { 0, 0, 4 }, 1895);
+        example.putScalar(new int[] { 0, 1, 4 }, 2379);
+        example.putScalar(new int[] { 0, 2, 4 }, 1918);
+        example.putScalar(new int[] { 0, 0, 5 }, 1887);
+        example.putScalar(new int[] { 0, 1, 5 }, 2389);
+        example.putScalar(new int[] { 0, 2, 5 }, 1927);
+        example.putScalar(new int[] { 0, 0, 6 }, 1895);
+        example.putScalar(new int[] { 0, 1, 6 }, 2392);
+        example.putScalar(new int[] { 0, 2, 6 }, 1929);
+        example.putScalar(new int[] { 0, 0, 7 }, 1898);
+        example.putScalar(new int[] { 0, 1, 7 }, 2402);
+        example.putScalar(new int[] { 0, 2, 7 }, 1914);
+        example.putScalar(new int[] { 0, 0, 8 }, 1882);
+        example.putScalar(new int[] { 0, 1, 8 }, 2395);
+        example.putScalar(new int[] { 0, 2, 8 }, 1894);
+        example.putScalar(new int[] { 0, 0, 9 }, 1867);
+        example.putScalar(new int[] { 0, 1, 9 }, 2403);
+        example.putScalar(new int[] { 0, 2, 9 }, 1855);
+
+        ds = new DataSet(example, null);
+        normalizer.transform(ds);
+        model.rnnClearPreviousState();
+        outputActivations = model.output(example);
+        System.out.println("outputActivations expected 2 again: " + outputActivations);
 
         System.out.println("****************Example finished********************");
 
