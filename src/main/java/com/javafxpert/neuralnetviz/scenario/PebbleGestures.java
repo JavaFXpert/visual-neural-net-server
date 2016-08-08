@@ -44,6 +44,7 @@ import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.File;
+import java.util.List;
 
 //import org.deeplearning4j.ui.weights.HistogramIterationListener;
 
@@ -58,37 +59,35 @@ public class PebbleGestures {
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
         int numLinesToSkip = 1;
         String delimiter = ",";
-        int miniBatchSize = 5;
+        int miniBatchSize = 10;
         int numPossibleLabels = 3;
         int labelIndex = 0;
         boolean regression = false;
+        final int numInputs = 1;
+        int iterations = 600;
+        long seed = 6;
+        double learningRate = 0.003;
+        int lstmLayerSize = 10;					//Number of units in each GravesLSTM layer
+
 
         SequenceRecordReader reader = new CSVSequenceRecordReader(0, ",");
-        reader.initialize(new NumberedFileInputSplit("src/main/resources/classification/pebble_data_%d.csv", 0, 5));
+        reader.initialize(new NumberedFileInputSplit("src/main/resources/classification/pebble_data_%d.csv", 0, 2));
         DataSetIterator variableLengthIter = new SequenceRecordReaderDataSetIterator(reader, miniBatchSize, numPossibleLabels, labelIndex, regression);
 
         //org.datavec.api.records.reader.RecordReader recordReader = new org.datavec.api.records.reader.impl.csv.CSVRecordReader(numLinesToSkip,delimiter);
         //recordReader.initialize(new org.datavec.api.split.FileSplit(new File("src/main/resources/classification/speed_dating_all.csv")));
 
         DataSet allData = variableLengthIter.next();
-        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.65);  //Use 65% of data for training
+        //SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.99);  //Use 65% of data for training
 
-        DataSet trainingData = testAndTrain.getTrain();
-        DataSet testData = testAndTrain.getTest();
+        //DataSet trainingData = testAndTrain.getTrain();
+        //DataSet testData = testAndTrain.getTest();
 
         //We need to normalize our data. We'll use NormalizeStandardize (which gives us mean 0, unit variance):
         DataNormalization normalizer = new NormalizerStandardize();
-        normalizer.fit(trainingData);           //Collect the statistics (mean/stdev) from the training data. This does not modify the input data
-        normalizer.transform(trainingData);     //Apply normalization to the training data
-        normalizer.transform(testData);         //Apply normalization to the test data. This is using statistics calculated from the *training* set
-
-
-        final int numInputs = 1;
-        int iterations = 300;
-        long seed = 6;
-        double learningRate = 0.01;
-
-        int lstmLayerSize = 5;					//Number of units in each GravesLSTM layer
+        normalizer.fit(allData);           //Collect the statistics (mean/stdev) from the training data. This does not modify the input data
+        normalizer.transform(allData);     //Apply normalization to the training data
+        //normalizer.transform(testData);         //Apply normalization to the test data. This is using statistics calculated from the *training* set
 
         //Set up network configuration:
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -120,7 +119,7 @@ public class PebbleGestures {
         //model.setListeners(new ModelListener(10, webSocketSession));
         model.setDataNormalization(normalizer);
 
-        model.fit( trainingData );
+        model.fit( allData );
 
         //evaluate the model on the test set
         /*
@@ -131,18 +130,27 @@ public class PebbleGestures {
         */
 
 
-        /*
         // Make prediction
-        // Input: 7, 8, 9  Expected output: ?
-        INDArray example = Nd4j.zeros(1, 3);
-        example.putScalar(new int[] { 0, 0 }, 7);
-        example.putScalar(new int[] { 0, 1 }, 8);
-        example.putScalar(new int[] { 0, 2 }, 9);
+        // Input: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5  Expected output: 0
+        INDArray example = Nd4j.zeros(1, 1, 10);
+        example.putScalar(new int[] { 0, 0, 0 }, 5);
+        example.putScalar(new int[] { 0, 0, 1 }, 5);
+        example.putScalar(new int[] { 0, 0, 2 }, 5);
+        example.putScalar(new int[] { 0, 0, 3 }, 5);
+        example.putScalar(new int[] { 0, 0, 4 }, 5);
+        example.putScalar(new int[] { 0, 0, 5 }, 5);
+        example.putScalar(new int[] { 0, 0, 6 }, 5);
+        example.putScalar(new int[] { 0, 0, 7 }, 5);
+        example.putScalar(new int[] { 0, 0, 8 }, 5);
+        example.putScalar(new int[] { 0, 0, 9 }, 5);
         DataSet ds = new DataSet(example, null);
         normalizer.transform(ds);
-        int[] prediction = model.predict(example);
-        System.out.println("prediction for 7 (attractive), 8 (intelligent), 9 (fun): " + prediction[0]);
-        */
+        //List<INDArray> outputActivations = model.feedForward(example);
+        //int[] prediction = model.predict(example);
+        INDArray outputActivations = model.rnnTimeStep(example);
+
+        System.out.println("outputActivations for 5, 5, 5, 5, 5, 5, 5, 5, 5, 5: " + outputActivations);
+        //System.out.println("prediction for 5, 5, 5, 5, 5, 5, 5, 5, 5, 5: " + prediction[0]);
 
         System.out.println("****************Example finished********************");
 
