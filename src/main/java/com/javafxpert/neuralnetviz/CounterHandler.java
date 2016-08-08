@@ -76,6 +76,9 @@ public class CounterHandler extends TextWebSocketHandler {
         else if ("{\"name\":\"BasicRNNExample\"}".equalsIgnoreCase(message.getPayload())) {
             MultiLayerNetworkState.setNeuralNetworkModel(BasicRNNExample.buildNetwork(session));
         }
+        else if ("{\"name\":\"PebbleGestures\"}".equalsIgnoreCase(message.getPayload())) {
+            //MultiLayerNetworkState.setNeuralNetworkModel(PebbleGestures.buildNetwork(session));
+        }
         else {
             System.out.println("Received:" + message.getPayload());
         }

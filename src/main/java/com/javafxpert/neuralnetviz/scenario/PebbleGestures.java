@@ -57,17 +57,17 @@ public class PebbleGestures {
     public static void main(String[] args) throws  Exception {
 
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
-        int numLinesToSkip = 1;
+        int numLinesToSkip = 0;
         String delimiter = ",";
         int miniBatchSize = 10;
         int numPossibleLabels = 3;
-        int labelIndex = 0;
+        int labelIndex = 3;
         boolean regression = false;
-        final int numInputs = 1;
+        final int numInputs = 3;
         int iterations = 600;
         long seed = 6;
         double learningRate = 0.003;
-        int lstmLayerSize = 10;					//Number of units in each GravesLSTM layer
+        int lstmLayerSize = 20;					//Number of units in each GravesLSTM layer
 
 
         SequenceRecordReader reader = new CSVSequenceRecordReader(0, ",");
@@ -111,11 +111,11 @@ public class PebbleGestures {
             .build();
 
 
-        String[] inputFeatureNames = {"Accelerometer readings"};
-        String[] outputLabelNames = {"Level", "Rising", "Falling"};
+        String[] inputFeatureNames = {"accel x", "accel y", "accel z"};
+        String[] outputLabelNames = {"Subject A", "Subject B", "Subject C"};
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
-        model.setListeners(new ScoreIterationListener(1));    //Print score every 100 parameter updates
+        model.setListeners(new ScoreIterationListener(1));    //Print score every 1 parameter updates
         //model.setListeners(new ModelListener(10, webSocketSession));
         model.setDataNormalization(normalizer);
 
@@ -131,26 +131,121 @@ public class PebbleGestures {
 
 
         // Make prediction
-        // Input: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5  Expected output: 0
-        INDArray example = Nd4j.zeros(1, 1, 10);
-        example.putScalar(new int[] { 0, 0, 0 }, 1);
-        example.putScalar(new int[] { 0, 0, 1 }, 2);
-        example.putScalar(new int[] { 0, 0, 2 }, 3);
-        example.putScalar(new int[] { 0, 0, 3 }, 4);
-        example.putScalar(new int[] { 0, 0, 4 }, 5);
-        example.putScalar(new int[] { 0, 0, 5 }, 6);
-        example.putScalar(new int[] { 0, 0, 6 }, 7);
-        example.putScalar(new int[] { 0, 0, 7 }, 8);
-        example.putScalar(new int[] { 0, 0, 8 }, 9);
-        example.putScalar(new int[] { 0, 0, 9 }, 10);
+        // Expected output: 0
+        INDArray example = Nd4j.zeros(1, 3, 10);
+        example.putScalar(new int[] { 0, 0, 0 }, 1895);
+        example.putScalar(new int[] { 0, 1, 0 }, 2390);
+        example.putScalar(new int[] { 0, 2, 0 }, 2024);
+        example.putScalar(new int[] { 0, 0, 1 }, 1889);
+        example.putScalar(new int[] { 0, 1, 1 }, 2389);
+        example.putScalar(new int[] { 0, 2, 1 }, 2022);
+        example.putScalar(new int[] { 0, 0, 2 }, 1886);
+        example.putScalar(new int[] { 0, 1, 2 }, 2383);
+        example.putScalar(new int[] { 0, 2, 2 }, 2027);
+        example.putScalar(new int[] { 0, 0, 3 }, 1888);
+        example.putScalar(new int[] { 0, 1, 3 }, 2382);
+        example.putScalar(new int[] { 0, 2, 3 }, 2028);
+        example.putScalar(new int[] { 0, 0, 4 }, 1889);
+        example.putScalar(new int[] { 0, 1, 4 }, 2385);
+        example.putScalar(new int[] { 0, 2, 4 }, 2027);
+        example.putScalar(new int[] { 0, 0, 5 }, 1892);
+        example.putScalar(new int[] { 0, 1, 5 }, 2386);
+        example.putScalar(new int[] { 0, 2, 5 }, 2023);
+        example.putScalar(new int[] { 0, 0, 6 }, 1893);
+        example.putScalar(new int[] { 0, 1, 6 }, 2381);
+        example.putScalar(new int[] { 0, 2, 6 }, 2020);
+        example.putScalar(new int[] { 0, 0, 7 }, 1897);
+        example.putScalar(new int[] { 0, 1, 7 }, 2388);
+        example.putScalar(new int[] { 0, 2, 7 }, 2030);
+        example.putScalar(new int[] { 0, 0, 8 }, 1893);
+        example.putScalar(new int[] { 0, 1, 8 }, 2384);
+        example.putScalar(new int[] { 0, 2, 8 }, 2027);
+        example.putScalar(new int[] { 0, 0, 9 }, 1894);
+        example.putScalar(new int[] { 0, 1, 9 }, 2387);
+        example.putScalar(new int[] { 0, 2, 9 }, 2030);
         DataSet ds = new DataSet(example, null);
         normalizer.transform(ds);
-        //List<INDArray> outputActivations = model.feedForward(example);
-        //int[] prediction = model.predict(example);
+        model.rnnClearPreviousState();
         INDArray outputActivations = model.rnnTimeStep(example);
+        System.out.println("outputActivations expected 0: " + outputActivations);
 
-        System.out.println("outputActivations for 5, 5, 5, 5, 5, 5, 5, 5, 5, 5: " + outputActivations);
-        //System.out.println("prediction for 5, 5, 5, 5, 5, 5, 5, 5, 5, 5: " + prediction[0]);
+        // Make prediction
+        // Expected output: 1
+        example = Nd4j.zeros(1, 3, 10);
+        example.putScalar(new int[] { 0, 0, 0 }, 2121);
+        example.putScalar(new int[] { 0, 1, 0 }, 2349);
+        example.putScalar(new int[] { 0, 2, 0 }, 1966);
+        example.putScalar(new int[] { 0, 0, 1 }, 2124);
+        example.putScalar(new int[] { 0, 1, 1 }, 2354);
+        example.putScalar(new int[] { 0, 2, 1 }, 1966);
+        example.putScalar(new int[] { 0, 0, 2 }, 2122);
+        example.putScalar(new int[] { 0, 1, 2 }, 2357);
+        example.putScalar(new int[] { 0, 2, 2 }, 1970);
+        example.putScalar(new int[] { 0, 0, 3 }, 2122);
+        example.putScalar(new int[] { 0, 1, 3 }, 2355);
+        example.putScalar(new int[] { 0, 2, 3 }, 1966);
+        example.putScalar(new int[] { 0, 0, 4 }, 2123);
+        example.putScalar(new int[] { 0, 1, 4 }, 2347);
+        example.putScalar(new int[] { 0, 2, 4 }, 1971);
+        example.putScalar(new int[] { 0, 0, 5 }, 2123);
+        example.putScalar(new int[] { 0, 1, 5 }, 2347);
+        example.putScalar(new int[] { 0, 2, 5 }, 1967);
+        example.putScalar(new int[] { 0, 0, 6 }, 2119);
+        example.putScalar(new int[] { 0, 1, 6 }, 2354);
+        example.putScalar(new int[] { 0, 2, 6 }, 1966);
+        example.putScalar(new int[] { 0, 0, 7 }, 2114);
+        example.putScalar(new int[] { 0, 1, 7 }, 2350);
+        example.putScalar(new int[] { 0, 2, 7 }, 1963);
+        example.putScalar(new int[] { 0, 0, 8 }, 2123);
+        example.putScalar(new int[] { 0, 1, 8 }, 2351);
+        example.putScalar(new int[] { 0, 2, 8 }, 1966);
+        example.putScalar(new int[] { 0, 0, 9 }, 2126);
+        example.putScalar(new int[] { 0, 1, 9 }, 2351);
+        example.putScalar(new int[] { 0, 2, 9 }, 1963);
+        ds = new DataSet(example, null);
+        normalizer.transform(ds);
+        model.rnnClearPreviousState();
+        outputActivations = model.rnnTimeStep(example);
+        System.out.println("outputActivations expected 1: " + outputActivations);
+
+        // Make prediction
+        // Expected output: 2
+        example = Nd4j.zeros(1, 3, 10);
+        example.putScalar(new int[] { 0, 0, 0 }, 1925);
+        example.putScalar(new int[] { 0, 1, 0 }, 2386);
+        example.putScalar(new int[] { 0, 2, 0 }, 1983);
+        example.putScalar(new int[] { 0, 0, 1 }, 1925);
+        example.putScalar(new int[] { 0, 1, 1 }, 2389);
+        example.putScalar(new int[] { 0, 2, 1 }, 1983);
+        example.putScalar(new int[] { 0, 0, 2 }, 1923);
+        example.putScalar(new int[] { 0, 1, 2 }, 2393);
+        example.putScalar(new int[] { 0, 2, 2 }, 1985);
+        example.putScalar(new int[] { 0, 0, 3 }, 1918);
+        example.putScalar(new int[] { 0, 1, 3 }, 2386);
+        example.putScalar(new int[] { 0, 2, 3 }, 1980);
+        example.putScalar(new int[] { 0, 0, 4 }, 1922);
+        example.putScalar(new int[] { 0, 1, 4 }, 2393);
+        example.putScalar(new int[] { 0, 2, 4 }, 1978);
+        example.putScalar(new int[] { 0, 0, 5 }, 1918);
+        example.putScalar(new int[] { 0, 1, 5 }, 2383);
+        example.putScalar(new int[] { 0, 2, 5 }, 1987);
+        example.putScalar(new int[] { 0, 0, 6 }, 1927);
+        example.putScalar(new int[] { 0, 1, 6 }, 2385);
+        example.putScalar(new int[] { 0, 2, 6 }, 1984);
+        example.putScalar(new int[] { 0, 0, 7 }, 1927);
+        example.putScalar(new int[] { 0, 1, 7 }, 2384);
+        example.putScalar(new int[] { 0, 2, 7 }, 1986);
+        example.putScalar(new int[] { 0, 0, 8 }, 1922);
+        example.putScalar(new int[] { 0, 1, 8 }, 2391);
+        example.putScalar(new int[] { 0, 2, 8 }, 1985);
+        example.putScalar(new int[] { 0, 0, 9 }, 1919);
+        example.putScalar(new int[] { 0, 1, 9 }, 2389);
+        example.putScalar(new int[] { 0, 2, 9 }, 1986 );
+        ds = new DataSet(example, null);
+        normalizer.transform(ds);
+        model.rnnClearPreviousState();
+        outputActivations = model.rnnTimeStep(example);
+        System.out.println("outputActivations expected 2: " + outputActivations);
 
         System.out.println("****************Example finished********************");
 
