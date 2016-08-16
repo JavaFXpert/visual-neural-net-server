@@ -1,5 +1,6 @@
 #Exposed! Neural Network
 
+
 Interactive visualization of artificial neural networks that leverages deeplearning4j, spring, and angular2.  
 Licensed under the Apache License, Version 2.0
 
