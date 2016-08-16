@@ -70,6 +70,9 @@ public class CounterHandler extends TextWebSocketHandler {
         else if ("{\"name\":\"SpeedDating\"}".equalsIgnoreCase(message.getPayload())) {
             MultiLayerNetworkState.setNeuralNetworkModel(SpeedDating.buildNetwork(session));
         }
+        else if ("{\"name\":\"WineClassifier\"}".equalsIgnoreCase(message.getPayload())) {
+            MultiLayerNetworkState.setNeuralNetworkModel(WineClassifier.buildNetwork(session));
+        }
         else if ("{\"name\":\"RegressionSum\"}".equalsIgnoreCase(message.getPayload())) {
             MultiLayerNetworkState.setNeuralNetworkModel(RegressionSum.buildNetwork(session));
         }
