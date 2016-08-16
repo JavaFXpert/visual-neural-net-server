@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * Developed by Preetham V V, who wrote an awesome post entitled "How to train your #NeuralNetwork for Wine tasting?" that explains it:
+ * https://medium.com/autonomous-agents/how-to-train-your-neuralnetwork-for-wine-tasting-1b49e0adff3a#.le240ivkn
+ */
 package com.javafxpert.neuralnetviz.scenario;
 
 import com.javafxpert.neuralnetviz.model.ModelListener;
