@@ -19,8 +19,10 @@
       <button md-button [color]="curSampleName == 'XorExample'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('XorExample')">XOR</button>
       <button md-button [color]="curSampleName == 'CSVExample'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('CSVExample')">Iris flower</button>
       <button md-button [color]="curSampleName == 'SpeedDating'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('SpeedDating')">Speed Dating</button>
+      <button md-button [color]="curSampleName == 'WineClassifier'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('WineClassifier')">Wine Classifier</button>
       <button md-button [color]="curSampleName == 'MLPClassifierMoon'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('MLPClassifierMoon')">MLP Classifier Saturn</button>
       <button md-button [color]="curSampleName == 'RegressionSum'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('RegressionSum')">Regression Sum</button>
+      <!--button md-button [color]="curSampleName == 'PebbleGestures'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('PebbleGestures')">Pebble Gestures</button-->
       <!--button md-button [color]="curSampleName == 'BasicRNNExample'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('BasicRNNExample')">Basic RNN Example</button-->
     </div>
 
@@ -37,10 +39,11 @@
       <input placeholder={{inputFeatureNames[7]}} *ngIf="inputValues.length > 7" [(ngModel)]="inputValues[7]" />
       <input placeholder={{inputFeatureNames[8]}} *ngIf="inputValues.length > 8" [(ngModel)]="inputValues[8]" />
       <input placeholder={{inputFeatureNames[9]}} *ngIf="inputValues.length > 9" [(ngModel)]="inputValues[9]" />
-      <!--input placeholder={{inputFeatureNames[10]}} *ngIf="inputValues.length > 10" [(ngModel)]="inputValues[10]" />
+      <input placeholder={{inputFeatureNames[10]}} *ngIf="inputValues.length > 10" [(ngModel)]="inputValues[10]" />
       <input placeholder={{inputFeatureNames[11]}} *ngIf="inputValues.length > 11" [(ngModel)]="inputValues[11]" />
       <input placeholder={{inputFeatureNames[12]}} *ngIf="inputValues.length > 12" [(ngModel)]="inputValues[12]" />
-      <input placeholder={{inputFeatureNames[13]}} *ngIf="inputValues.length > 13" [(ngModel)]="inputValues[13]" />
+
+      <!--input placeholder={{inputFeatureNames[13]}} *ngIf="inputValues.length > 13" [(ngModel)]="inputValues[13]" />
       <input placeholder={{inputFeatureNames[14]}} *ngIf="inputValues.length > 14" [(ngModel)]="inputValues[14]" />
       <input placeholder={{inputFeatureNames[15]}} *ngIf="inputValues.length > 15" [(ngModel)]="inputValues[15]" />
       <input placeholder={{inputFeatureNames[16]}} *ngIf="inputValues.length > 16" [(ngModel)]="inputValues[16]" />
