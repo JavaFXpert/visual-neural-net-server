@@ -22,6 +22,7 @@
       <button md-button [color]="curSampleName == 'WineClassifier'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('WineClassifier')">Wine Classifier</button>
       <button md-button [color]="curSampleName == 'MLPClassifierMoon'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('MLPClassifierMoon')">MLP Classifier Saturn</button>
       <button md-button [color]="curSampleName == 'RegressionSum'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('RegressionSum')">Regression Sum</button>
+      <button md-button [color]="curSampleName == 'TicTacToe'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('TicTacToe')">Tic Tac Toe</button>
       <!--button md-button [color]="curSampleName == 'PebbleGestures'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('PebbleGestures')">Pebble Gestures</button-->
       <!--button md-button [color]="curSampleName == 'BasicRNNExample'? 'accent' : 'primary'" (click)="handleSampleButtonClicked('BasicRNNExample')">Basic RNN Example</button-->
     </div>
@@ -42,8 +43,7 @@
       <input placeholder={{inputFeatureNames[10]}} *ngIf="inputValues.length > 10" [(ngModel)]="inputValues[10]" />
       <input placeholder={{inputFeatureNames[11]}} *ngIf="inputValues.length > 11" [(ngModel)]="inputValues[11]" />
       <input placeholder={{inputFeatureNames[12]}} *ngIf="inputValues.length > 12" [(ngModel)]="inputValues[12]" />
-
-      <!--input placeholder={{inputFeatureNames[13]}} *ngIf="inputValues.length > 13" [(ngModel)]="inputValues[13]" />
+      <input placeholder={{inputFeatureNames[13]}} *ngIf="inputValues.length > 13" [(ngModel)]="inputValues[13]" />
       <input placeholder={{inputFeatureNames[14]}} *ngIf="inputValues.length > 14" [(ngModel)]="inputValues[14]" />
       <input placeholder={{inputFeatureNames[15]}} *ngIf="inputValues.length > 15" [(ngModel)]="inputValues[15]" />
       <input placeholder={{inputFeatureNames[16]}} *ngIf="inputValues.length > 16" [(ngModel)]="inputValues[16]" />
@@ -59,7 +59,7 @@
       <input placeholder={{inputFeatureNames[26]}} *ngIf="inputValues.length > 26" [(ngModel)]="inputValues[26]" />
       <input placeholder={{inputFeatureNames[27]}} *ngIf="inputValues.length > 27" [(ngModel)]="inputValues[27]" />
       <input placeholder={{inputFeatureNames[28]}} *ngIf="inputValues.length > 28" [(ngModel)]="inputValues[28]" />
-      <input placeholder={{inputFeatureNames[29]}} *ngIf="inputValues.length > 29" [(ngModel)]="inputValues[29]" /-->
+      <input placeholder={{inputFeatureNames[29]}} *ngIf="inputValues.length > 29" [(ngModel)]="inputValues[29]" />
     </div>
 
     <div #scoreGraph id="scoreGraph"></div>
