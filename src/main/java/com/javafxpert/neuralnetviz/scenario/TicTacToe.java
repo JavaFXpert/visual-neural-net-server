@@ -18,6 +18,7 @@ package com.javafxpert.neuralnetviz.scenario;
 import com.javafxpert.neuralnetviz.model.ModelListener;
 import com.javafxpert.neuralnetviz.model.MultiLayerNetworkEnhanced;
 import org.deeplearning4j.eval.Evaluation;
+import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
@@ -57,22 +58,22 @@ public class TicTacToe {
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
-        //allData.shuffle();
-        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.75);  //Use 75% of data for training
+        allData.shuffle();
+        //SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.50);  //Use 75% of data for training
 
-        DataSet trainingData = testAndTrain.getTrain();
-        DataSet testData = testAndTrain.getTest();
+        //DataSet trainingData = testAndTrain.getTrain();
+        //DataSet testData = testAndTrain.getTest();
 
         //We need to normalize our data. We'll use NormalizeStandardize (which gives us mean 0, unit variance):
-        DataNormalization normalizer = new NormalizerStandardize();
-        normalizer.fit(trainingData);           //Collect the statistics (mean/stdev) from the training data. This does not modify the input data
-        normalizer.transform(trainingData);     //Apply normalization to the training data
-        normalizer.transform(testData);         //Apply normalization to the test data. This is using statistics calculated from the *training* set
+        //DataNormalization normalizer = new NormalizerStandardize();
+        //normalizer.fit(allData);           //Collect the statistics (mean/stdev) from the training data. This does not modify the input data
+        //normalizer.transform(allData);     //Apply normalization to the training data
+        //normalizer.transform(testData);         //Apply normalization to the test data. This is using statistics calculated from the *training* set
 
 
         final int numInputs = 27;
         int outputNum = 9;
-        int iterations = 30;
+        int iterations = 1000;
         long seed = 6;
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -81,6 +82,9 @@ public class TicTacToe {
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
             .learningRate(0.1)
+            .useDropConnect(false)
+            .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+            .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
             .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(28)
@@ -99,19 +103,21 @@ public class TicTacToe {
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
         model.setListeners(new ModelListener(10, webSocketSession));
-        model.setDataNormalization(normalizer);
+        //model.setDataNormalization(normalizer);
 
-        model.fit( trainingData );
+        model.fit( allData );
 
         //evaluate the model on the test set
+        /*
         Evaluation eval = new Evaluation(outputNum);
         INDArray output = model.output(testData.getFeatureMatrix());
         eval.eval(testData.getLabels(), output);
         System.out.println(eval.stats());
+        */
 
 
         // Make prediction
-        // Input: 0,1,0, 1,0,0, 0,0,1, 1,0,0, 1,0,0  1,0,0  1,0,0  1,0,0  1,0,0  Expected output: 4
+        // Input: 0,1,0, 1,0,0, 1,0,0, 1,0,0, 0,0,1, 1,0,0, 1,0,0, 1,0,0, 1,0,0  Expected output: 8
         INDArray example = Nd4j.zeros(1, 27);
         example.putScalar(new int[] { 0, 0 }, 0);
         example.putScalar(new int[] { 0, 1 }, 1);
@@ -119,15 +125,15 @@ public class TicTacToe {
         example.putScalar(new int[] { 0, 3 }, 1);
         example.putScalar(new int[] { 0, 4 }, 0);
         example.putScalar(new int[] { 0, 5 }, 0);
-        example.putScalar(new int[] { 0, 6 }, 0);
+        example.putScalar(new int[] { 0, 6 }, 1);
         example.putScalar(new int[] { 0, 7 }, 0);
-        example.putScalar(new int[] { 0, 8 }, 1);
+        example.putScalar(new int[] { 0, 8 }, 0);
         example.putScalar(new int[] { 0, 9 }, 1);
         example.putScalar(new int[] { 0, 10 }, 0);
         example.putScalar(new int[] { 0, 11 }, 0);
-        example.putScalar(new int[] { 0, 12 }, 1);
+        example.putScalar(new int[] { 0, 12 }, 0);
         example.putScalar(new int[] { 0, 13 }, 0);
-        example.putScalar(new int[] { 0, 14 }, 0);
+        example.putScalar(new int[] { 0, 14 }, 1);
         example.putScalar(new int[] { 0, 15 }, 1);
         example.putScalar(new int[] { 0, 16 }, 0);
         example.putScalar(new int[] { 0, 17 }, 0);
@@ -141,7 +147,7 @@ public class TicTacToe {
         example.putScalar(new int[] { 0, 25 }, 0);
         example.putScalar(new int[] { 0, 26 }, 0);
         DataSet ds = new DataSet(example, null);
-        normalizer.transform(ds);
+        //normalizer.transform(ds);
         int[] prediction = model.predict(example);
         System.out.println("prediction for ???: " + prediction[0]);
 
