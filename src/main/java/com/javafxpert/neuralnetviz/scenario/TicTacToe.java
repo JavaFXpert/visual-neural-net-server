@@ -21,6 +21,7 @@ import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.distribution.UniformDistribution;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.weights.WeightInit;
@@ -73,7 +74,7 @@ public class TicTacToe {
 
         final int numInputs = 27;
         int outputNum = 9;
-        int iterations = 1000;
+        int iterations = 3000;
         long seed = 6;
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -81,17 +82,19 @@ public class TicTacToe {
             .iterations(iterations)
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
-            .learningRate(0.1)
+            .learningRate(0.13)
             .useDropConnect(false)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(28)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(9)
+                .weightInit(WeightInit.DISTRIBUTION)
+                .activation("sigmoid")
                 .build())
             .layer(1, new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(28).nOut(outputNum).build())
+                .nIn(9).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 
@@ -102,7 +105,7 @@ public class TicTacToe {
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
-        model.setListeners(new ModelListener(10, webSocketSession));
+        model.setListeners(new ModelListener(300, webSocketSession));
         //model.setDataNormalization(normalizer);
 
         model.fit( allData );
