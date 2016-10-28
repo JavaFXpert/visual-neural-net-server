@@ -55,7 +55,7 @@ public class TicTacToe {
         //Second: the RecordReaderDataSetIterator handles conversion to DataSet objects, ready for use in neural network
         int labelIndex = 0;     // 28 values in each row of the dataset:  Labels are the 1st value (index 0) in each row
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
-        int batchSize = 4;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+        int batchSize = 12;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
@@ -88,13 +88,13 @@ public class TicTacToe {
             .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(9)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(27)
                 .weightInit(WeightInit.DISTRIBUTION)
                 .activation("sigmoid")
                 .build())
             .layer(1, new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(9).nOut(outputNum).build())
+                .nIn(27).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 
