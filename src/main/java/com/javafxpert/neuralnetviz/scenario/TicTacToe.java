@@ -57,7 +57,7 @@ public class TicTacToe {
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
 
         //TODO: Ascertain best batch size for large datasets
-        int batchSize = 99;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+        int batchSize = 104;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
