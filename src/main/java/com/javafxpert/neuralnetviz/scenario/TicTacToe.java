@@ -55,7 +55,9 @@ public class TicTacToe {
         //Second: the RecordReaderDataSetIterator handles conversion to DataSet objects, ready for use in neural network
         int labelIndex = 0;     // 28 values in each row of the dataset:  Labels are the 1st value (index 0) in each row
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
-        int batchSize = 12;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+
+        //TODO: Ascertain best batch size for large datasets
+        int batchSize = 43;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
@@ -74,7 +76,7 @@ public class TicTacToe {
 
         final int numInputs = 27;
         int outputNum = 9;
-        int iterations = 3000;
+        int iterations = 10000;
         long seed = 6;
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -82,19 +84,19 @@ public class TicTacToe {
             .iterations(iterations)
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
-            .learningRate(0.13)
+            .learningRate(0.2)
             .useDropConnect(false)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(27)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(9)
                 .weightInit(WeightInit.DISTRIBUTION)
                 .activation("sigmoid")
                 .build())
             .layer(1, new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(27).nOut(outputNum).build())
+                .nIn(9).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 
@@ -105,7 +107,7 @@ public class TicTacToe {
         MultiLayerNetworkEnhanced model = new MultiLayerNetworkEnhanced(conf, inputFeatureNames, outputLabelNames);
         model.init();
         //model.setListeners(new ScoreIterationListener(100));    //Print score every 100 parameter updates
-        model.setListeners(new ModelListener(300, webSocketSession));
+        model.setListeners(new ModelListener(500, webSocketSession));
         //model.setDataNormalization(normalizer);
 
         model.fit( allData );
