@@ -47,7 +47,7 @@ public class TicTacToe {
     public static MultiLayerNetworkEnhanced buildNetwork(WebSocketSession webSocketSession) throws  Exception {
 
         //First: get the dataset using the record reader. CSVRecordReader handles loading/parsing
-        int numLinesToSkip = 1;
+        int numLinesToSkip = 0;
         String delimiter = ",";
         org.datavec.api.records.reader.RecordReader recordReader = new org.datavec.api.records.reader.impl.csv.CSVRecordReader(numLinesToSkip,delimiter);
         recordReader.initialize(new org.datavec.api.split.FileSplit(new File("src/main/resources/classification/tic_tac_toe_all.csv")));
@@ -57,7 +57,7 @@ public class TicTacToe {
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
 
         //TODO: Ascertain best batch size for large datasets
-        int batchSize = 89;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+        int batchSize = 99;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
