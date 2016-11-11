@@ -57,7 +57,7 @@ public class TicTacToe {
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
 
         //TODO: Ascertain best batch size for large datasets
-        int batchSize = 4713;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+        int batchSize = 4710;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
@@ -76,7 +76,7 @@ public class TicTacToe {
 
         final int numInputs = 27;
         int outputNum = 9;
-        int iterations = 20000;
+        int iterations = 10000;
         long seed = 6;
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -84,7 +84,7 @@ public class TicTacToe {
             .iterations(iterations)
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
-            .learningRate(0.5)
+            .learningRate(0.7)
             .useDropConnect(false)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .biasInit(0)
