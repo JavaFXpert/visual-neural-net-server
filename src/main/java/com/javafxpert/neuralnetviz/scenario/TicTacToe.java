@@ -57,7 +57,7 @@ public class TicTacToe {
         int numClasses = 9;     //9 classes (a move for X in each square) in the data set. Classes have integer values 0 - 8
 
         //TODO: Ascertain best batch size for large datasets
-        int batchSize = 208;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
+        int batchSize = 4713;    //Data set: ??? examples total. We are loading all of them into one DataSet (not recommended for large data sets)
 
         DataSetIterator iterator = new org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator(recordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
@@ -76,7 +76,7 @@ public class TicTacToe {
 
         final int numInputs = 27;
         int outputNum = 9;
-        int iterations = 10000;
+        int iterations = 20000;
         long seed = 6;
 
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -84,19 +84,19 @@ public class TicTacToe {
             .iterations(iterations)
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
-            .learningRate(0.2)
+            .learningRate(0.5)
             .useDropConnect(false)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(9)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(27)
                 .weightInit(WeightInit.DISTRIBUTION)
                 .activation("sigmoid")
                 .build())
             .layer(1, new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(9).nOut(outputNum).build())
+                .nIn(27).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 
@@ -122,23 +122,23 @@ public class TicTacToe {
 
 
         // Make prediction
-        // Input: 0,1,0, 1,0,0, 1,0,0, 1,0,0, 0,0,1, 1,0,0, 1,0,0, 1,0,0, 1,0,0  Expected output: 8
+        // Input: 0,1,0, 0,1,0, 0,0,1, 0,0,1, 1,0,0, 1,0,0, 1,0,0, 1,0,0, 1,0,0  Expected output: 4
         INDArray example = Nd4j.zeros(1, 27);
         example.putScalar(new int[] { 0, 0 }, 0);
         example.putScalar(new int[] { 0, 1 }, 1);
         example.putScalar(new int[] { 0, 2 }, 0);
-        example.putScalar(new int[] { 0, 3 }, 1);
-        example.putScalar(new int[] { 0, 4 }, 0);
+        example.putScalar(new int[] { 0, 3 }, 0);
+        example.putScalar(new int[] { 0, 4 }, 1);
         example.putScalar(new int[] { 0, 5 }, 0);
-        example.putScalar(new int[] { 0, 6 }, 1);
+        example.putScalar(new int[] { 0, 6 }, 0);
         example.putScalar(new int[] { 0, 7 }, 0);
-        example.putScalar(new int[] { 0, 8 }, 0);
-        example.putScalar(new int[] { 0, 9 }, 1);
+        example.putScalar(new int[] { 0, 8 }, 1);
+        example.putScalar(new int[] { 0, 9 }, 0);
         example.putScalar(new int[] { 0, 10 }, 0);
-        example.putScalar(new int[] { 0, 11 }, 0);
-        example.putScalar(new int[] { 0, 12 }, 0);
+        example.putScalar(new int[] { 0, 11 }, 1);
+        example.putScalar(new int[] { 0, 12 }, 1);
         example.putScalar(new int[] { 0, 13 }, 0);
-        example.putScalar(new int[] { 0, 14 }, 1);
+        example.putScalar(new int[] { 0, 14 }, 0);
         example.putScalar(new int[] { 0, 15 }, 1);
         example.putScalar(new int[] { 0, 16 }, 0);
         example.putScalar(new int[] { 0, 17 }, 0);

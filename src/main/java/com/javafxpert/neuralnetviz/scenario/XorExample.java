@@ -218,8 +218,8 @@ public class XorExample {
 		// let Evaluation prints stats how often the right output had the
 		// highest value
 		Evaluation eval = new Evaluation(2);
-		//eval.eval(ds.getLabels(), output);
-		//System.out.println(eval.stats());
+		eval.eval(ds.getLabels(), output);
+		System.out.println(eval.stats());
 
 
         //displayNetwork(net);
