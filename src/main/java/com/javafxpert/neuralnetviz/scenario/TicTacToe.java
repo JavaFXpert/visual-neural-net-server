@@ -84,19 +84,19 @@ public class TicTacToe {
             .iterations(iterations)
             .activation("tanh")
             .weightInit(WeightInit.XAVIER)
-            .learningRate(1.3)
+            .learningRate(1.9)
             .useDropConnect(false)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .biasInit(0)
             .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(27)
+            .layer(0, new DenseLayer.Builder().nIn(numInputs).nOut(54)
                 .weightInit(WeightInit.DISTRIBUTION)
                 .activation("sigmoid")
                 .build())
             .layer(1, new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation("softmax")
-                .nIn(27).nOut(outputNum).build())
+                .nIn(54).nOut(outputNum).build())
             .backprop(true).pretrain(false)
             .build();
 
@@ -122,26 +122,26 @@ public class TicTacToe {
 
 
         // Make prediction
-        // Input: 0,1,0, 0,1,0, 0,0,1, 0,0,1, 1,0,0, 1,0,0, 1,0,0, 1,0,0, 1,0,0  Expected output: 4
+        // Input: 0,1,0, 0,0,1, 0,1,0, 1,0,0, 1,0,0, 0,0,1, 1,0,0, 1,0,0, 1,0,0  Expected output: 4
         INDArray example = Nd4j.zeros(1, 27);
         example.putScalar(new int[] { 0, 0 }, 0);
         example.putScalar(new int[] { 0, 1 }, 1);
         example.putScalar(new int[] { 0, 2 }, 0);
         example.putScalar(new int[] { 0, 3 }, 0);
-        example.putScalar(new int[] { 0, 4 }, 1);
-        example.putScalar(new int[] { 0, 5 }, 0);
+        example.putScalar(new int[] { 0, 4 }, 0);
+        example.putScalar(new int[] { 0, 5 }, 1);
         example.putScalar(new int[] { 0, 6 }, 0);
-        example.putScalar(new int[] { 0, 7 }, 0);
-        example.putScalar(new int[] { 0, 8 }, 1);
-        example.putScalar(new int[] { 0, 9 }, 0);
+        example.putScalar(new int[] { 0, 7 }, 1);
+        example.putScalar(new int[] { 0, 8 }, 0);
+        example.putScalar(new int[] { 0, 9 }, 1);
         example.putScalar(new int[] { 0, 10 }, 0);
-        example.putScalar(new int[] { 0, 11 }, 1);
+        example.putScalar(new int[] { 0, 11 }, 0);
         example.putScalar(new int[] { 0, 12 }, 1);
         example.putScalar(new int[] { 0, 13 }, 0);
         example.putScalar(new int[] { 0, 14 }, 0);
-        example.putScalar(new int[] { 0, 15 }, 1);
+        example.putScalar(new int[] { 0, 15 }, 0);
         example.putScalar(new int[] { 0, 16 }, 0);
-        example.putScalar(new int[] { 0, 17 }, 0);
+        example.putScalar(new int[] { 0, 17 }, 1);
         example.putScalar(new int[] { 0, 18 }, 1);
         example.putScalar(new int[] { 0, 19 }, 0);
         example.putScalar(new int[] { 0, 20 }, 0);
